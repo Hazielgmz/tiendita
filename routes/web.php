@@ -21,3 +21,16 @@ Route::get('/POSMenu', function () {
 Route::get('/POSMenu', [POSMenuController::class, 'index']);
 Route::post('/POSMenu/search', [POSMenuController::class, 'searchProductByBarcode']);
 Route::post('/POSMenu/continue', [POSMenuController::class, 'continueSale']);
+
+// Rutas directas a cada Blade
+
+Route::view('/alta-productos', 'altaProductos')->name('altaProductos');
+Route::view('/alta-proveedores', 'altaProveedores')->name('altaProveedores');
+Route::view('/alta-usuarios', 'altaUsuarios')->name('altaUsuarios');
+
+Route::view('/configuracion', 'configuracion')->name('configuracion');
+Route::view('/corte-de-caja', 'corte_de_caja')->name('corteDeCaja');
+Route::view('/merma-productos', 'mermaProductos')->name('mermaProductos');
+
+Route::view('/pago', 'pago')->name('pago');
+Route::view('/reportes', 'Reportes')->name('Reportes');
