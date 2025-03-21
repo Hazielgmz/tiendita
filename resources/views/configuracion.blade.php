@@ -7,6 +7,6 @@
     <title>Evenezer</title>
 </head>
 <body>
-    <h1>{{ 'ventana donde se continuara la venta' }}</h1>
+    <h1>{{ 'ventana para poder visulizar todos los apartados de configuración' }}</h1>
 </body>
 </html>

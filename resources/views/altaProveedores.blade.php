@@ -7,6 +7,6 @@
     <title>Evenezer</title>
 </head>
 <body>
-    <h1>{{ 'ventana donde se continuara la venta' }}</h1>
+    <h1>{{ 'Ventana para dar de alta los proveedores' }}</h1>
 </body>
 </html>
