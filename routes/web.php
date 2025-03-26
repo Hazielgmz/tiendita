@@ -23,6 +23,7 @@ Route::post('/POSMenu/search', [POSMenuController::class, 'searchProductByBarcod
 Route::post('/POSMenu/continue', [POSMenuController::class, 'continueSale']);
 
 // Rutas directas a cada Blade
+//JAJAJAJAJAJAJAJAJAJA
 
 Route::view('/admin-dashboard', 'admin-dashboard')->name('admin-dashboard');
 Route::view('/alta-proveedores', 'altaProveedores')->name('altaProveedores');
