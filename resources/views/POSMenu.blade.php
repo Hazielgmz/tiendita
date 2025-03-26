@@ -8,7 +8,6 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Archivo CSS personalizado -->
   <link rel="stylesheet" href="{{ asset('css/posmenu.css') }}">
-  
 </head>
 <body class="bg-gray-100">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 h-screen">
@@ -49,7 +48,7 @@
         <div class="flex justify-between">
           <button id="btn-salir" class="flex flex-col items-center gap-1 py-2">Salir</button>
           <button id="btn-bloquear" class="flex flex-col items-center gap-1 py-2">Bloquear</button>
-          <button id="btn-config" class="flex flex-col items-center gap-1 py-2">Config</button>
+          <button id="btn-config" class="flex flex-col items-center gap-1 py-2">Promo</button>
           <button id="btn-mas" class="flex flex-col items-center gap-1 py-2">Más...</button>
         </div>
       </div>
@@ -134,5 +133,10 @@
 
   <!-- Cargar el archivo JavaScript -->
   <script src="{{ asset('js/posmenu.js') }}"></script>
+  <script>
+    document.getElementById('btn-mas').addEventListener('click', function() {
+      window.location.href = '/admin-dashboard';
+    });
+  </script>
 </body>
 </html>

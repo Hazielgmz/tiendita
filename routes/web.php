@@ -34,3 +34,8 @@ Route::view('/merma-productos', 'mermaProductos')->name('mermaProductos');
 
 Route::view('/pago', 'pago')->name('pago');
 Route::view('/reportes', 'Reportes')->name('Reportes');
+
+// Agrega esta ruta al final del archivo
+Route::get('/admin-dashboard', function () {
+    return view('admin-dashboard');
+});
