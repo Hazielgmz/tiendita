@@ -4,6 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\POSMenuController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\UserController;
+
+// Rutas para los controladores 
+Route::resource('productos', ProductoController::class);
+Route::resource('users', UserController::class);
 
 // Ruta para mostrar el formulario de login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -22,18 +28,6 @@ Route::get('/POSMenu', function () {
 Route::get('/POSMenu', [POSMenuController::class, 'index']);
 Route::post('/POSMenu/search', [POSMenuController::class, 'searchProductByBarcode']);
 Route::post('/POSMenu/continue', [POSMenuController::class, 'continueSale']);
-
-// Rutas directas a cada Blade
-
-Route::view('/alta-productos', 'altaProductos')->name('altaProductos');
-Route::view('/alta-proveedores', 'altaProveedores')->name('altaProveedores');
-Route::view('/alta-usuarios', 'altaUsuarios')->name('altaUsuarios');
-
-Route::view('/configuracion', 'configuracion')->name('configuracion');
-Route::view('/corte-de-caja', 'corte_de_caja')->name('corteDeCaja');
-Route::view('/merma-productos', 'mermaProductos')->name('mermaProductos');
-
-Route::view('/pago', 'pago')->name('pago');
 
 // Rutas para el panel de administración
 Route::get('/admin-dashboard', [AdminPanelController::class, 'dashboard'])->name('admin.dashboard');

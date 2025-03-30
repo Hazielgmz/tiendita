@@ -1,4 +1,3 @@
-<!-- resources/views/admin/users.blade.php -->
 @extends('admin.layout')
 
 @section('header-title', 'Gestión de Usuarios')
@@ -33,39 +32,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Usuario 1</td>
-                                <td>usuario1@ejemplo.com</td>
-                                <td>Administrador</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Usuario 2</td>
-                                <td>usuario2@ejemplo.com</td>
-                                <td>Vendedor</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Usuario 3</td>
-                                <td>usuario3@ejemplo.com</td>
-                                <td>Administrador</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role ?? 'N/A' }}</td>
+                                    <td>
+                                        <div class="flex gap-2">
+                                            <!-- Botón de editar sin funcionalidad -->
+                                            <button class="btn btn-outline">Editar</button>
+                                            
+                                            <!-- Botón de eliminar -->
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

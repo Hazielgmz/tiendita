@@ -1,4 +1,3 @@
-<!-- resources/views/admin/products.blade.php -->
 @extends('admin.layout')
 
 @section('header-title', 'Gestión de Productos')
@@ -32,42 +31,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>PRD-0001</td>
-                                <td>Producto 1</td>
-                                <td>$10.99</td>
-                                <td>15</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRD-0002</td>
-                                <td>Producto 2</td>
-                                <td>$21.98</td>
-                                <td>30</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRD-0003</td>
-                                <td>Producto 3</td>
-                                <td>$32.97</td>
-                                <td>45</td>
-                                <td>
-                                    <div class="flex gap-2">
-                                        <button class="btn btn-outline">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach($products as $product)
+                                <tr>
+                                    <td>{{ $product->codigo_barras }}</td>
+                                    <td>{{ $product->nombre_producto }}</td>
+                                    <td>${{ $product->precio_unitario }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>
+                                        <div class="flex gap-2">
+                                            <!-- Botón de editar sin funcionalidad -->
+                                            <button class="btn btn-outline">Editar</button>
+                                            
+                                            <!-- Botón de eliminar -->
+                                            <form action="{{ route('productos.destroy', $product->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if($products->isEmpty())
+                                <tr>
+                                    <td colspan="5">No hay productos registrados.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Producto; // 
 
 class AdminPanelController extends Controller
 {
@@ -19,12 +21,17 @@ class AdminPanelController extends Controller
 
     public function usuarios()
     {
-        return view('admin.users'); // Asegúrate de que este archivo exista
+        $users = User::all();
+
+        // Retorna la vista 'admin.users' (es decir, resources/views/admin/users.blade.php)
+        // pasando la variable $users para que la vista pueda iterar sobre ella.
+        return view('admin.users', compact('users'));
     }
 
     public function productos()
     {
-        return view('admin.products'); // Asegúrate de que este archivo exista
+        $products = Producto::all();
+        return view('admin.products', compact('products')); // Asegúrate de que este archivo exista
     }
 
     public function proveedores()
