@@ -1,0 +1,89 @@
+/* General styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+/* Grid layout */
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+/* Stat cards */
+.stat-card {
+    background-color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-card-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.stat-card-icon {
+    background-color: #f1f3f5;
+    padding: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.stat-card-change {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Quick actions */
+button {
+    background-color: #343a40;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #495057;
+    transform: translateY(-2px);
+}
+
+/* Placeholder for charts */
+.chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10rem;
+    background-color: #e9ecef;
+    border-radius: 0.75rem;
+    color: #adb5bd;
+    font-size: 1rem;
+}
