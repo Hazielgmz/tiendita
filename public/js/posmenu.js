@@ -164,21 +164,6 @@ function nuevaVenta() {
   document.getElementById('cambio-container').classList.add('hidden');
 }
 
-// Acciones de la barra inferior
-document.getElementById('btn-salir').addEventListener('click', () => {
-  if (confirm("¿Está seguro que desea cerrar la sesión?")) {
-    alert("Sesión cerrada correctamente.");
-  }
-});
-document.getElementById('btn-bloquear').addEventListener('click', () => {
-  alert("Caja bloqueada. Ingrese su contraseña para desbloquear.");
-});
-document.getElementById('btn-config').addEventListener('click', () => {
-  alert("Configuración del sistema");
-});
-document.getElementById('btn-mas').addEventListener('click', () => {
-  alert("Más acciones");
-});
-
+// Función para cerrar el modal de pago al hacer clic fuera de él
 // Inicializa la lista de productos al cargar la página
 renderProductos();
