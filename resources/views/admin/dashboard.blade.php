@@ -80,7 +80,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Generar Reporte</button>
                     <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Alta de Usuario</button>
-                    <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Alta de Producto</button>
+                    
                     <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Ver Estadísticas</button>
                 </div>
             </div>
@@ -93,4 +93,5 @@
             </div>
         </div>
     </div>
+   
 @endsection
