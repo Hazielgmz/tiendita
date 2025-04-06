@@ -79,19 +79,28 @@
                 <h3 class="text-lg font-bold mb-4">Acciones Rápidas</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Generar Reporte</button>
-                    <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Alta de Usuario</button>
-                    
-                    <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Ver Estadísticas</button>
-                </div>
-            </div>
+                    <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Agregar Producto</button>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <div class="grid grid-cols-2 gap-4">
+            <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Ver Estadísticas</button>
+            <button class="bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-gray-800">Resumen de ventas</button>
+           <!-- filepath: c:\xampp\htdocs\tiendita\resources\views\admin\dashboard.blade.php -->
+     <button onclick="window.location.href='{{ route('admin.create-user') }}'" class="bg-gray-800 text-white py-2 px-4 rounded-lg shadow hover:bg-gray-700 text-center block">
+    Alta de Usuario
+</button>
 
-            <div class="bg-white shadow-md rounded-lg p-6">
-                <h3 class="text-lg font-bold mb-4">Resumen de Ventas</h3>
+        </div>
+    </div>
+</div>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                <h3 class="text-lg font-bold mb-4 text-center">Gráficas de venta</h3>
                 <div class="flex items-center justify-center h-40 bg-gray-100 rounded-lg">
                     <span class="text-gray-400">[Gráfico Placeholder]</span>
                 </div>
             </div>
         </div>
     </div>
+</div>
    
 @endsection

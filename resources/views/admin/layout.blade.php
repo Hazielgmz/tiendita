@@ -127,7 +127,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div>
-                <h2>Admin Panel</h2>
+
                 @include('admin.sidebar')
             </div>
             <footer>
