@@ -50,7 +50,23 @@ Route::get('/admin/reportes/ventas/generar', [AdminPanelController::class, 'gene
 Route::get('/admin/reportes/mermas/generar', [AdminPanelController::class, 'generarReporteMermas'])->name('admin.reports.mermas.generar');
 Route::get('/admin/reportes/usuarios/generar', [AdminPanelController::class, 'generarReporteUsuarios'])->name('admin.reports.usuarios.generar');
 
+
 // Ruta para mostrar la interfaz de "Alta de Usuario"
 Route::get('/admin/create-user', function () {
     return view('admin.create-user');
 })->name('admin.create-user');
+
+
+// Ruta para mostrar la interfaz de "Alta de Producto"
+Route::get('/admin/create-product', function () {
+    return view('admin.create-product');
+})->name('admin.create-product');
+
+
+
+
+// Ruta para mostrar la interfaz de edición de un producto
+Route::get('/admin/products/{id}/edit', function ($id) {
+    return view('admin.edit-product', ['id' => $id]);
+})->name('productos.edit');
+
