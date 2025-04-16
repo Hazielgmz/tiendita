@@ -28,6 +28,8 @@ Route::get('/POSMenu', function () {
 Route::get('/POSMenu', [POSMenuController::class, 'index']);
 Route::post('/POSMenu/search', [POSMenuController::class, 'searchProductByBarcode']);
 Route::post('/POSMenu/continue', [POSMenuController::class, 'continueSale']);
+Route::get('/ventas', [POSMenuController::class, 'index'])->name('ventas.index');
+Route::post('/ventas', [POSMenuController::class, 'store'])->name('ventas.store');
 
 // Rutas para el panel de administración
 Route::get('/admin-dashboard', [AdminPanelController::class, 'dashboard'])->name('admin.dashboard');

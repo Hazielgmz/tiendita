@@ -4,21 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Punto de Venta</title>
-  <!-- Tailwind CSS (desde CDN o tu compilación) -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Archivo CSS personalizado -->
   <link rel="stylesheet" href="{{ asset('css/posmenu.css') }}">
 </head>
 <body class="bg-gray-100">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 h-screen">
-    <!-- Panel izquierdo: Productos y acciones -->
     <div class="md:col-span-8 flex flex-col h-full">
       <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Punto de venta</h1>
-        <div class="flex items-center gap-2"></div>
       </div>
 
-      <!-- Sección de código de barras -->
       <div id="barcode-section" class="mb-4 p-3 border rounded-md">
         <h2 class="text-sm font-medium mb-2">Escanear código de barras</h2>
         <div class="flex gap-2">
@@ -29,21 +24,17 @@
         <p id="barcode-feedback" class="text-sm text-green-600 mt-2 hidden">¡Producto agregado correctamente!</p>
       </div>
 
-      <!-- Lista de productos (única pestaña "Todos") -->
       <div class="flex flex-col flex-1 overflow-hidden">
         <div class="mb-4">
           <button id="tab-todos" class="px-4 py-2 bg-gray-200 rounded">Todos</button>
         </div>
-        <!-- Inyectamos los productos en un atributo data -->
         <div id="productos-container" class="overflow-y-auto" style="max-height: calc(100vh - 320px);">
-          <div id="productos-grid" data-productos='@json($productos)'
-               class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div id="productos-grid" data-productos='@json($productos)' class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             <!-- Las tarjetas se generarán en JS -->
           </div>
         </div>
       </div>
 
-      <!-- Barra inferior de acciones -->
       <div class="bg-gray-100 border-t border-b rounded-b-md mt-4 p-2">
         <div class="flex justify-between">
           <button id="btn-salir" class="flex flex-col items-center gap-1 py-2">Salir</button>
@@ -54,7 +45,6 @@
       </div>
     </div>
 
-    <!-- Panel derecho: Carrito y pago -->
     <div class="md:col-span-4 flex flex-col h-full">
       <div class="bg-white shadow rounded flex-1 flex flex-col">
         <div class="p-4 flex flex-col h-full">
@@ -79,7 +69,6 @@
     </div>
   </div>
 
-  <!-- Modal de pago -->
   <div id="modal-pago" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white rounded p-4 w-11/12 max-w-md">
       <div class="mb-4">
@@ -91,36 +80,13 @@
             <p class="text-sm">Total a pagar</p>
             <p id="modal-total" class="text-2xl font-bold text-green-600">$0.00</p>
           </div>
-          <div class="space-y-3">
-            <label class="block">Método de pago</label>
-            <div id="metodo-pago" class="grid grid-cols-1 gap-2">
-              <div class="flex items-center space-x-2 border p-3 rounded cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="metodoPago" value="efectivo" id="efectivo" checked>
-                <label for="efectivo" class="flex-1">Efectivo</label>
-              </div>
-              <div class="flex items-center space-x-2 border p-3 rounded cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="metodoPago" value="tarjeta" id="tarjeta">
-                <label for="tarjeta" class="flex-1">Tarjeta de Crédito/Débito</label>
-              </div>
-              <div class="flex items-center space-x-2 border p-3 rounded cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="metodoPago" value="amex" id="amex">
-                <label for="amex" class="flex-1">American Express</label>
-              </div>
-            </div>
-          </div>
-          <div id="pago-efectivo" class="space-y-2">
+          <div class="space-y-2">
             <label for="cantidadRecibida" class="block">Cantidad recibida</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-              <input id="cantidadRecibida" type="number" min="0" step="0.01" class="pl-8 border rounded w-full">
+              <input id="cantidadRecibida" type="number" min="0" step="0.01" class="pl-8 border rounded w-full" placeholder="Ingrese cantidad">
             </div>
-            <div id="cambio-container" class="flex justify-between p-2 bg-gray-100 rounded-md hidden">
-              <span>Cambio:</span>
-              <span id="cambio-display" class="font-bold">$0.00</span>
-            </div>
-          </div>
-          <div id="pago-tarjeta" class="p-3 bg-blue-50 text-blue-800 rounded-md text-sm hidden">
-            Pase la tarjeta por el lector o inserte el chip para procesar el pago.
+            <p id="pago-message" class="text-red-600 hidden"></p>
           </div>
         </div>
       </div>
@@ -131,12 +97,106 @@
     </div>
   </div>
 
-  <!-- Cargar el archivo JavaScript -->
+  <div id="cambio-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded p-4 w-11/12 max-w-md">
+      <div class="mb-4">
+        <h2 class="text-xl font-bold">Cambio</h2>
+      </div>
+      <p id="cambio-text" class="text-lg"></p>
+      <div class="flex justify-end space-x-2 mt-4">
+        <button id="cambio-close" class="bg-blue-500 text-white px-4 py-2 rounded">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="success-message" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded p-4 w-11/12 max-w-md">
+      <p id="success-text" class="text-green-600 text-lg"></p>
+      <button id="success-close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Cerrar</button>
+    </div>
+  </div>
+
+  <form id="venta-form" action="{{ route('ventas.store') }}" method="POST" class="hidden">
+    @csrf
+    <input type="hidden" name="total" id="form-total">
+    <input type="hidden" name="fecha" id="form-fecha">
+    <input type="hidden" name="productos" id="form-productos">
+  </form>
+
   <script src="{{ asset('js/posmenu.js') }}"></script>
   <script>
     document.getElementById('btn-mas').addEventListener('click', function() {
       window.location.href = '/admin-dashboard';
     });
+
+    document.getElementById('btn-pago').addEventListener('click', function() {
+      const total = parseFloat(document.getElementById('total-display').innerText.replace('$', ''));
+      document.getElementById('modal-total').innerText = `$${total.toFixed(2)}`;
+      document.getElementById('modal-pago').classList.remove('hidden'); // Mostrar el modal
+    });
+
+    document.getElementById('modal-completar').addEventListener('click', function() {
+      const total = parseFloat(document.getElementById('modal-total').innerText.replace('$', ''));
+      const cantidadRecibida = parseFloat(document.getElementById('cantidadRecibida').value);
+      const messageElement = document.getElementById('pago-message');
+
+      messageElement.classList.add('hidden');
+
+      if (isNaN(cantidadRecibida) || cantidadRecibida <= 0) {
+        messageElement.innerText = 'Por favor, ingrese una cantidad válida.';
+        messageElement.classList.remove('hidden');
+      } else if (cantidadRecibida < total) {
+        messageElement.innerText = 'La cantidad ingresada es menor que el total a pagar.';
+        messageElement.classList.remove('hidden');
+      } else {
+        // Si la cantidad es mayor o igual al total
+        const cambio = cantidadRecibida - total;
+        document.getElementById('cambio-text').innerText = `Cambio: $${cambio.toFixed(2)}`;
+        document.getElementById('cambio-modal').classList.remove('hidden'); // Mostrar modal de cambio
+
+        // Preparar los datos para enviar
+        document.getElementById('form-total').value = total.toFixed(2);
+        document.getElementById('form-fecha').value = new Date().toISOString();
+        
+        // Obtener productos del carrito
+        const productos = getProductosDelCarrito();
+        document.getElementById('form-productos').value = JSON.stringify(productos);
+
+        // Enviar la venta a la base de datos
+        document.getElementById('venta-form').submit(); 
+        
+        // Retraso antes de redirigir
+        setTimeout(function() {
+          window.location.href = '{{ route("ventas.index") }}';
+        }, 10000); // 10 segundos de retraso
+      }
+    });
+
+    document.getElementById('cambio-close').addEventListener('click', function() {
+      // Redirigir al menú después de cerrar el modal de cambio
+      window.location.href = '{{ route("ventas.index") }}';
+    });
+
+    document.getElementById('success-close').addEventListener('click', function() {
+      document.getElementById('success-message').classList.add('hidden');
+      location.reload(); // Esta línea se ejecuta solo si se cierra el modal de éxito
+    });
+
+    function getProductosDelCarrito() {
+      const productos = [];
+      const items = document.querySelectorAll('#carrito-contenido .producto'); 
+
+      items.forEach(item => {
+        const id = item.dataset.id; // Asegúrate de tener un data-id en el HTML
+        const cantidad = parseInt(item.querySelector('.cantidad').value) || 0;
+        const precioUnitario = parseFloat(item.dataset.precio) || 0; 
+        const subtotal = cantidad * precioUnitario; 
+
+        productos.push({ id, cantidad, precio_unitario: precioUnitario, subtotal });
+      });
+
+      return productos;
+    }
   </script>
 </body>
 </html>

@@ -11,14 +11,15 @@ class CreateVentaTable extends Migration
         Schema::create('venta', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('users_id')->unsigned();
-            $table->BigInteger('pago_id')->unsigned();
             $table->decimal('total', 10, 2);
             $table->timestamp('fecha');
             $table->timestamps();
 
             // Foreign key constraint
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('pago_id')->references('id')->on('pago')->onDelete('cascade');
+
+            // Index for users_id
+            $table->index('users_id');
         });
     }
 
