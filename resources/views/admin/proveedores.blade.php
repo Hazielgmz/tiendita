@@ -17,25 +17,61 @@
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            padding: 1rem;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        /* Encabezado */
-        h1 {
-            color: #2c3e50;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 1.1rem;
+        /* Encabezado y navegación */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .header {
+            flex: 1;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        .back-button {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .back-button:hover {
+            background-color: #e2e8f0;
         }
         
         /* Botón de alta */
@@ -44,13 +80,13 @@
             color: white;
             border: none;
             border-radius: 4px;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             transition: background-color 0.2s;
         }
         
@@ -60,18 +96,22 @@
         
         .btn-add svg {
             margin-right: 0.5rem;
+            width: 16px;
+            height: 16px;
         }
         
         /* Tabla */
         .table-container {
-            border: 1px solid #ddd;
-            border-radius: 2px;
+            border: 1px solid #eee;
+            border-radius: 4px;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.875rem;
         }
         
         thead {
@@ -81,13 +121,13 @@
         
         th {
             text-align: left;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.75rem;
             font-weight: 500;
         }
         
         td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #ddd;
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid #eee;
         }
         
         tbody tr:hover {
@@ -97,9 +137,9 @@
         /* Badges */
         .badge {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             cursor: pointer;
         }
@@ -124,9 +164,9 @@
             color: #3498db;
             border: 1px solid #3498db;
             background: transparent;
-            padding: 0.25rem 1rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -140,9 +180,9 @@
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 0.25rem 1rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s;
         }
@@ -173,8 +213,8 @@
             background-color: white;
             border-radius: 8px;
             width: 100%;
-            max-width: 500px;
-            padding: 1.5rem;
+            max-width: 450px;
+            padding: 1.25rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
@@ -183,19 +223,19 @@
         }
         
         .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #333;
         }
         
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
         
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
             color: #4b5563;
         }
         
@@ -217,7 +257,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 0.5rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
         
         .btn {
@@ -254,16 +294,36 @@
             .hide-sm {
                 display: none;
             }
+            
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .back-button {
+                align-self: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gestión de Proveedores</h1>
-        <p class="subtitle">Administra el catálogo de proveedores</p>
+        <div class="header-container">
+            <div class="header">
+                <h1>Gestión de Proveedores</h1>
+                <p class="subtitle">Administra el catálogo de proveedores</p>
+            </div>
+            <button class="back-button" onclick="window.history.back();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Atrás
+            </button>
+        </div>
         
         <button id="btnAddProveedor" class="btn-add">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>

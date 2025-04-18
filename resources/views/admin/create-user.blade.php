@@ -56,6 +56,8 @@
         .card-footer {
             padding: 20px;
             border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
         }
 
         .form-group {
@@ -100,7 +102,6 @@
         }
 
         button {
-            width: 100%;
             padding: 12px;
             background-color: #4f46e5;
             color: white;
@@ -114,6 +115,20 @@
 
         button:hover {
             background-color: #4338ca;
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            flex: 2;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
         }
 
         @media (max-width: 600px) {
@@ -199,13 +214,14 @@
                         </div>
                     </div>
                 </div>
+
                 
                 <div class="card-footer">
-                    <button type="button">Guardar</button>
+                    <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
+                    <button type="button" class="btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 </body>
 </html>
-

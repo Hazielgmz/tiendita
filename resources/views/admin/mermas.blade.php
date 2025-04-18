@@ -11,13 +11,14 @@
                     <h3 class="card-title">Control de Mermas</h3>
                     <p class="card-description">Gestiona las mermas de productos</p>
                 </div>
-                <button class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5v14"></path>
-                    </svg>
-                    Registrar Merma
-                </button>
+                <!-- Botón de Registrar Merma -->
+<a href="{{ route('admin.mermas.create') }}" class="btn btn-primary">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"></path>
+        <path d="M5 12h14"></path>
+    </svg>
+    Registrar Merma
+</a>
             </div>
             <div class="card-content">
                 <div class="table-container">

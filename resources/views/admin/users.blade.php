@@ -10,15 +10,15 @@
                     <h3 class="card-title">Gestión de Usuarios</h3>
                     <p class="card-description">Administra los usuarios del sistema</p>
                 </div>
-                <button class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M19 8v6"></path>
-                        <path d="M22 11v6"></path>
-                    </svg>
-                    Alta de Usuario
-                </button>
+                <button onclick="window.location.href='{{ route('admin.create-user') }}'" class="btn btn-primary">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M19 8v6"></path>
+        <path d="M22 11v6"></path>
+    </svg>
+    Alta de Usuario
+</button>
             </div>
             <div class="card-content">
                 <div class="table-container">
@@ -39,10 +39,13 @@
                                     <td>{{ $user->role ?? 'N/A' }}</td>
                                     <td>
                                         <div class="flex gap-2">
-                                            <!-- Botón de editar sin funcionalidad -->
-                                            <button class="btn btn-outline">Editar</button>
-                                            
-                                            <!-- Botón de eliminar -->
+
+                                         <!-- Botón de Editar -->
+    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary">
+        Editar
+    </a>
+
+                                      <!-- Botón de eliminar -->
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
                                                 @csrf
                                                 @method('DELETE')

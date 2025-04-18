@@ -2,67 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\Producto; // Asegúrate de que la ruta sea correcta
 
-class ProductoController extends Controller
+class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el formulario para editar un producto.
      */
-    public function index()
+    public function edit($id)
     {
-        // Obtiene todos los productos de la base de datos
-        $products = Producto::all();
-        // Retorna la vista ubicada en resources/views/admin/products.blade.php
-        return view('admin.products', compact('products'));
-    }
+        // Buscar el producto por su ID
+        $product = Product::findOrFail($id);
 
-    public function create()
-    {
-        //
+        // Retornar la vista de edición con los datos del producto
+        return view('admin.edit-product', compact('product'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Actualiza un producto en la base de datos.
      */
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        // Validar los datos
+        $request->validate([
+            'codigo' => 'required|string|max:255|unique:products,codigo,' . $id,
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // Buscar el producto por su ID y actualizarlo
+        $product = Product::findOrFail($id);
+        $product->update([
+            'codigo' => $request->codigo,
+            'nombre' => $request->nombre,
+            'precio' => $request->precio,
+            'stock' => $request->stock,
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Producto $producto)
-    {
-        $producto->delete();
-
-        return redirect()->route('productos.index')
-                         ->with('success', 'Producto eliminado correctamente');
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('admin.products')->with('success', 'Producto actualizado correctamente.');
     }
 }

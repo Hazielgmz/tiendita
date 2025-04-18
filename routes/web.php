@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Producto;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\POSMenuController;
@@ -59,16 +60,38 @@ Route::get('/admin/create-user', function () {
 })->name('admin.create-user');
 
 
+// Ruta para mostrar la interfaz de edición de un usuario
+Route::get('/admin/users/{id}/edit', function ($id) {
+    return view('admin.edit-user', ['id' => $id]);
+})->name('admin.users.edit');
+
+
 // Ruta para mostrar la interfaz de "Alta de Producto"
 Route::get('/admin/create-product', function () {
     return view('admin.create-product');
 })->name('admin.create-product');
 
 
-
-
 // Ruta para mostrar la interfaz de edición de un producto
 Route::get('/admin/products/{id}/edit', function ($id) {
     return view('admin.edit-product', ['id' => $id]);
 })->name('productos.edit');
+
+
+// Ruta para mostrar la interfaz de "Registrar Merma"
+Route::get('/admin/mermas/create', function () {
+    return view('admin.create-merma');
+})->name('admin.mermas.create');
+
+
+Route::get('/proveedores', function () {
+    return view('admin.proveedores');
+})->name('proveedores.index');
+
+
+// Ruta para mostrar la interfaz de "Punto de Venta"
+Route::get('/punto-de-venta', function () {
+    $productos = Producto::all(); // Obtiene todos los productos de la base de datos
+    return view('POSMenu', compact('productos')); // Envía la variable a la vista
+})->name('punto-de-venta');
 
