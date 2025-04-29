@@ -44,14 +44,14 @@ Route::get('/admin/configuracion', [AdminPanelController::class, 'configuracion'
 Route::get('/admin/estadisticas', [AdminPanelController::class, 'estadisticas'])->name('admin.statistics');
 
 // Ruta de reportes
-Route::view('/admin/reportes', 'Reportes')->name('admin.reports');
-Route::get('/admin/reportes/ventas', [AdminPanelController::class, 'reporteVentas'])->name('admin.reports.ventas');
-Route::get('/admin/reportes/mermas', [AdminPanelController::class, 'reporteMermas'])->name('admin.reports.mermas');
-Route::get('/admin/reportes/usuarios', [AdminPanelController::class, 'reporteUsuarios'])->name('admin.reports.usuarios');
-Route::get('/admin/reportes/proveedores', [AdminPanelController::class, 'reporteProveedores'])->name('admin.reports.proveedores');
-Route::get('/admin/reportes/ventas/generar', [AdminPanelController::class, 'generarReporteVentas'])->name('admin.reports.ventas.generar');
-Route::get('/admin/reportes/mermas/generar', [AdminPanelController::class, 'generarReporteMermas'])->name('admin.reports.mermas.generar');
-Route::get('/admin/reportes/usuarios/generar', [AdminPanelController::class, 'generarReporteUsuarios'])->name('admin.reports.usuarios.generar');
+Route::view('/admin/reports', 'admin.reports')->name('admin.reports');
+Route::get('/admin/reports/ventas', [AdminPanelController::class, 'reporteVentas'])->name('admin.reports.ventas');
+Route::get('/admin/reports/mermas', [AdminPanelController::class, 'reporteMermas'])->name('admin.reports.mermas');
+Route::get('/admin/reports/usuarios', [AdminPanelController::class, 'reporteUsuarios'])->name('admin.reports.usuarios');
+Route::get('/admin/reports/proveedores', [AdminPanelController::class, 'reporteProveedores'])->name('admin.reports.proveedores');
+Route::get('/admin/reports/ventas/generar', [AdminPanelController::class, 'generarReporteVentas'])->name('admin.reports.ventas.generar');
+Route::get('/admin/reports/mermas/generar', [AdminPanelController::class, 'generarReporteMermas'])->name('admin.reports.mermas.generar');
+Route::get('/admin/reports/usuarios/generar', [AdminPanelController::class, 'generarReporteUsuarios'])->name('admin.reports.usuarios.generar');
 
 
 // Ruta para mostrar la interfaz de "Alta de Usuario"

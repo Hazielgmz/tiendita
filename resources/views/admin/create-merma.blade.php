@@ -220,12 +220,6 @@
                             <option value="otro">Otro</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="valor">Valor ($)</label>
-                        <input class="form-input" id="valor" type="number" step="0.01" min="0">
-                    </div>
-                </form>
             </div>
             <div class="card-footer">
             <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>

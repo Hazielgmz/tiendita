@@ -62,7 +62,7 @@
         </div>
       </div>
       <h1 class="title">
-        Mi Tiendita
+        Evenezer
         <span class="title-dot"></span>
       </h1>
       <p class="subtitle">¡Bienvenido de vuelta!</p>
