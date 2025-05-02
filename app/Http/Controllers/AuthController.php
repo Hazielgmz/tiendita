@@ -7,6 +7,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function checkPassword(Request $request)
+    {
+        $correctPassword = '3312'; // Cambia esto por la clave que desees
+
+        if ($request->password === $correctPassword) {
+            return redirect()->route('admin.dashboard'); // Redirige al panel de administración
+        }
+
+        return back()->withErrors(['password' => 'La clave ingresada es incorrecta.']);
+    }
+
     /**
      * Muestra el formulario de login.
      *

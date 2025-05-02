@@ -95,3 +95,15 @@ Route::get('/punto-de-venta', function () {
     return view('POSMenu', compact('productos')); // Envía la variable a la vista
 })->name('punto-de-venta');
 
+
+// Ruta para cerrar sesión
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+
+// Ruta para mostrar la interfaz de clave
+Route::get('/admin/password', function () {
+    return view('admin.admin-password');
+})->name('admin.password');
+
+// Ruta para validar la clave ingresada
+Route::post('/admin/password/check', [AuthController::class, 'checkPassword'])->name('admin.password.check');

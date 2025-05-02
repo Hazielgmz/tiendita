@@ -37,10 +37,15 @@
 
       <div class="bg-gray-100 border-t border-b rounded-b-md mt-4 p-2">
         <div class="flex justify-between">
-          <button id="btn-salir" class="flex flex-col items-center gap-1 py-2">Salir</button>
-          <button id="btn-bloquear" class="flex flex-col items-center gap-1 py-2">Bloquear</button>
-          <button id="btn-config" class="flex flex-col items-center gap-1 py-2">Promo</button>
-          <button id="btn-mas" class="flex flex-col items-center gap-1 py-2">Más...</button>
+        <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" id="btn-salir" class="flex flex-col items-center gap-1 py-2 px-4 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition duration-300">
+        Salir
+    </button>
+</form>
+<a href="{{ route('admin.password') }}" id="btn-mas" class="flex flex-col items-center gap-1 py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition duration-300">
+    Admin panel
+</a>
         </div>
       </div>
     </div>
@@ -125,9 +130,9 @@
 
   <script src="{{ asset('js/posmenu.js') }}"></script>
   <script>
-    document.getElementById('btn-mas').addEventListener('click', function() {
-      window.location.href = '/admin-dashboard';
-    });
+   // document.getElementById('btn-mas').addEventListener('click', function() {
+    //  window.location.href = '/admin-dashboard';
+   // });
 
     document.getElementById('btn-pago').addEventListener('click', function() {
       const total = parseFloat(document.getElementById('total-display').innerText.replace('$', ''));

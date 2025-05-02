@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         // Buscar el producto por su ID
-        $product = Product::findOrFail($id);
+        $product = Producto::findOrFail($id);
 
         // Retornar la vista de edición con los datos del producto
         return view('admin.edit-product', compact('product'));
@@ -33,7 +33,7 @@ class ProductController extends Controller
         ]);
 
         // Buscar el producto por su ID y actualizarlo
-        $product = Product::findOrFail($id);
+        $product = Producto::findOrFail($id);
         $product->update([
             'codigo' => $request->codigo,
             'nombre' => $request->nombre,
