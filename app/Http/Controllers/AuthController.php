@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function checkPassword(Request $request)
     {
-        $correctPassword = '3312'; // Cambia esto por la clave que desees
+        $correctPassword = '1234'; // Cambia esto por la clave que desees
 
         if ($request->password === $correctPassword) {
             return redirect()->route('admin.dashboard'); // Redirige al panel de administración
