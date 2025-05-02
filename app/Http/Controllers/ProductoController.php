@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductoController extends Controller
 {
     /**
      * Muestra el formulario para editar un producto.

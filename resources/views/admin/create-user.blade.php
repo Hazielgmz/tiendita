@@ -189,7 +189,7 @@
                         >
                     </div>
                     
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Rol</label>
                         <div class="radio-group">
                             <div class="radio-item">
@@ -212,7 +212,7 @@
                                 <label for="empleado">Empleado</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 
