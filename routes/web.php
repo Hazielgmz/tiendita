@@ -53,41 +53,34 @@ Route::get('/admin/reports/ventas/generar', [AdminPanelController::class, 'gener
 Route::get('/admin/reports/mermas/generar', [AdminPanelController::class, 'generarReporteMermas'])->name('admin.reports.mermas.generar');
 Route::get('/admin/reports/usuarios/generar', [AdminPanelController::class, 'generarReporteUsuarios'])->name('admin.reports.usuarios.generar');
 
-
 // Ruta para mostrar la interfaz de "Alta de Usuario"
 Route::get('/admin/create-user', function () {
     return view('admin.create-user');
 })->name('admin.create-user');
-
 
 // Ruta para mostrar la interfaz de edición de un usuario
 Route::get('/admin/users/{id}/edit', function ($id) {
     return view('admin.edit-user', ['id' => $id]);
 })->name('admin.users.edit');
 
-
-// Ruta para mostrar la interfaz de "Alta de Producto"
-Route::get('/admin/create-product', function () {
-    return view('admin.create-product');
-})->name('admin.create-product');
-
+// Rutas para crear producto
+Route::get('/admin/create-product', [ProductoController::class, 'create'])->name('admin.create-product'); // Ruta corregida
+Route::post('/admin/store-product', [ProductoController::class, 'store'])->name('productos.store');
 
 // Ruta para mostrar la interfaz de edición de un producto
 Route::get('/admin/products/{id}/edit', function ($id) {
     return view('admin.edit-product', ['id' => $id]);
 })->name('productos.edit');
 
-
 // Ruta para mostrar la interfaz de "Registrar Merma"
 Route::get('/admin/mermas/create', function () {
     return view('admin.create-merma');
 })->name('admin.mermas.create');
 
-
+// Ruta para proveedores
 Route::get('/proveedores', function () {
     return view('admin.proveedores');
 })->name('proveedores.index');
-
 
 // Ruta para mostrar la interfaz de "Punto de Venta"
 Route::get('/punto-de-venta', function () {
@@ -95,10 +88,8 @@ Route::get('/punto-de-venta', function () {
     return view('POSMenu', compact('productos')); // Envía la variable a la vista
 })->name('punto-de-venta');
 
-
 // Ruta para cerrar sesión
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 
 // Ruta para mostrar la interfaz de clave
 Route::get('/admin/password', function () {

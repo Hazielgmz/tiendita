@@ -63,22 +63,11 @@
         .back-button:hover {
             background-color: #6c7a7d;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            background-color: #2c3e50;
-            color: white;
-            text-align: left;
-            padding: 12px;
-        }
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        .proveedores {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -86,11 +75,10 @@
     <div class="container">
         <h1>Sistema de Inventario - Alta de Productos</h1>
         
-    
-        <!-- Formulario para agregar productos -->
         <div class="form-container">
             <h2>Agregar Nuevo Producto</h2>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <form method="post" action="{{ route('productos.store') }}">
+                @csrf
                 <div class="form-group">
                     <label for="codigo">Código:</label>
                     <input type="text" id="codigo" name="codigo" required>
@@ -110,14 +98,43 @@
                     <label for="stock">Stock:</label>
                     <input type="number" id="stock" name="stock" min="0" required>
                 </div>
-                 
+
+                <div class="form-group">
+                    <label for="imagen_url">URL de la Imagen:</label>
+                    <input type="text" id="imagen_url" name="imagen_url">
+                </div>
+
+                <div class="form-group">
+                    <label for="costo">Costo:</label>
+                    <input type="number" id="costo" name="costo" step="0.01" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <input type="text" id="tipo" name="tipo">
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="estado" name="estado" value="activo">
+                </div>
+
+                <div class="form-group">
+                    <label for="proveedor_id">Proveedor:</label>
+                    <select id="proveedor_id" name="proveedor_id" required>
+                        <option value="">Seleccione un proveedor</option>
+                        @foreach ($proveedores as $proveedor)
+                            <option value="{{ $proveedor->id }}">{{ $proveedor->id }} - {{ $proveedor->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
                 <div class="card-footer">
-                    <button type="button" class="btn-primary">Agregar producto</button>
-                    <button class="back-button" onclick="window.history.back();">Atrás</button>
+                    <button type="submit" class="btn-primary">Agregar producto</button>
+                    <button type="button" class="back-button" onclick="window.history.back();">Atrás</button>
                 </div>
             </form>
         </div>
     </div>
 </body>
 </html>
-               
