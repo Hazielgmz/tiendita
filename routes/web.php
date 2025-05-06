@@ -7,6 +7,7 @@ use App\Http\Controllers\POSMenuController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProveedorController;
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
@@ -78,9 +79,13 @@ Route::get('/admin/mermas/create', function () {
 })->name('admin.mermas.create');
 
 // Ruta para proveedores
-Route::get('/proveedores', function () {
-    return view('admin.proveedores');
-})->name('proveedores.index');
+Route::get('/api/proveedores', [ProveedorController::class, 'index']);
+Route::post('/api/proveedores', [ProveedorController::class, 'store'])->name('proveedores.store');
+Route::delete('/api/proveedores/{id}', [ProveedorController::class, 'destroy']);
+Route::put('/api/proveedores/{id}', [ProveedorController::class, 'update']);
+
+//Crear proveedores
+Route::get('/admin/proveedores/create-proveedores', [ProveedorController::class, 'create']);
 
 // Ruta para mostrar la interfaz de "Punto de Venta"
 Route::get('/punto-de-venta', function () {
