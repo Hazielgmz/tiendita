@@ -59,6 +59,19 @@ Route::get('/admin/create-user', function () {
     return view('admin.create-user');
 })->name('admin.create-user');
 
+// Route::post('/admin/create-user', function () {
+//     return view('admin.create-user');
+// })->name('admin.create-user');
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    // Muestra el listado de usuarios
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    // Formulario de registro
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    // Procesa el registro
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+});
+
 // Ruta para mostrar la interfaz de edición de un usuario
 Route::get('/admin/users/{id}/edit', function ($id) {
     return view('admin.edit-user', ['id' => $id]);

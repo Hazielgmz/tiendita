@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+    <title>Crea una cuenta</title>
+
+    {{-- Carga tu CSS compilado (Tailwind/Bootstrap o tu propio app.css) --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
     <style>
         * {
             box-sizing: border-box;
@@ -71,9 +75,10 @@
             font-size: 14px;
         }
 
+        /* CORRECCIÓN: tipos válidos */
         input[type="text"],
-        input[type="Correo"],
-        input[type="Contraseña"] {
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -82,28 +87,17 @@
         }
 
         input[type="text"]:focus,
-        input[type="Correo"]:focus,
-        input[type="Contraseña"]:focus {
+        input[type="email"]:focus,
+        input[type="password"]:focus {
             outline: none;
             border-color: #4f46e5;
             box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
         }
 
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button {
+        button,
+        .btn-secondary,
+        .btn-primary {
             padding: 12px;
-            background-color: #4f46e5;
             color: white;
             border: none;
             border-radius: 4px;
@@ -111,10 +105,14 @@
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
+            text-align: center;
+            text-decoration: none;
         }
 
-        button:hover {
-            background-color: #4338ca;
+        button:hover,
+        .btn-secondary:hover,
+        .btn-primary:hover {
+            opacity: 0.9;
         }
 
         .btn-primary {
@@ -125,10 +123,6 @@
         .btn-secondary {
             background-color: #6b7280;
             flex: 1;
-        }
-
-        .btn-secondary:hover {
-            background-color: #4b5563;
         }
 
         @media (max-width: 600px) {
@@ -142,83 +136,75 @@
     <div class="container">
         <h1>Crea una cuenta</h1>
         
+        @if ($errors->any())
+            <div class="alert alert-danger" style="margin-bottom:20px;">
+                <ul>
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-header">
                 <h2>Registro</h2>
             </div>
             
-            <form>
+            <form action="{{ route('admin.users.store') }}" method="POST">
+                @csrf
                 <div class="card-content">
                     <div class="form-group">
-                        <label for="Nombre">Nombre</label>
+                        <label for="name">Nombre</label>
                         <input 
-                            type="text" 
-                            id="Nombre" 
-                            name="Nombre" 
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ old('name') }}"
                             placeholder="Ingresa tu nombre" 
+                            required
                         >
                     </div>
                     
                     <div class="form-group">
-                        <label for="correo">Correo</label>
+                        <label for="email">Correo</label>
                         <input 
-                            type="correo" 
-                            id="Correo" 
-                            name="Correo" 
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ old('email') }}"
                             placeholder="Ingresa tu correo" 
+                            required
                         >
                     </div>
                     
                     <div class="form-group">
-                        <label for="Contraseña">Contraseña</label>
+                        <label for="password">Contraseña</label>
                         <input 
-                            type="Contraseña" 
-                            id="Contraseña" 
-                            name="Contraseña" 
+                            type="password"
+                            id="password"
+                            name="password"
                             placeholder="Crea tu contraseña"
+                            required
                         >
                     </div>
                     
                     <div class="form-group">
-                        <label for="confirmPassword">Confirmar contraseña</label>
+                        <label for="password_confirmation">Confirmar contraseña</label>
                         <input 
-                            type="Contraseña" 
-                            id="confirmar contraseña" 
-                            name="confirmar contraseña" 
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
                             placeholder="Confirma tu contraseña"
+                            required
                         >
                     </div>
-                    
-                    <!-- <div class="form-group">
-                        <label>Rol</label>
-                        <div class="radio-group">
-                            <div class="radio-item">
-                                <input 
-                                    type="radio" 
-                                    id="administrator" 
-                                    name="rol" 
-                                    value="administrador" 
-                                >
-                                <label for="administrador">Administrador</label>
-                            </div>
-                            <div class="radio-item">
-                                <input 
-                                    type="radio" 
-                                    id="empleado" 
-                                    name="rol" 
-                                    value="empleado" 
-                                    checked
-                                >
-                                <label for="empleado">Empleado</label>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
-
                 
                 <div class="card-footer">
+                    {{-- Botón Atrás --}}
                     <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
-                    <button type="button" class="btn-primary">Guardar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
