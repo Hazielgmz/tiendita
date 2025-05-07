@@ -18,7 +18,9 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">$45,231.89</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    ${{ number_format($totalVentas, 2) }}
+                </div>
             </div>
 
             <!-- Stat Card 2 -->
@@ -34,7 +36,9 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">+2,350</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    {{ number_format($transacciones) }}
+                </div>
             </div>
 
             <!-- Stat Card 3 -->
@@ -50,7 +54,11 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">1,245</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    {{ number_format($productos) }}
+                </div>
             </div>
 
+        </div>
+    </div>
 @endsection

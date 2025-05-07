@@ -14,7 +14,14 @@ class AdminPanelController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard'); // Asegúrate de que la vista 'admin.dashboard' exista
+        // Suma total de ventas
+        $totalVentas   = Venta::sum('total');
+        // Cantidad de transacciones (ventas)
+        $transacciones = Venta::count();
+        // Cantidad de productos
+        $productos     = Producto::count();
+
+        return view('admin.dashboard', compact('totalVentas', 'transacciones', 'productos'));
     }
 
     public function index(Request $request)
