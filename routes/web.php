@@ -8,10 +8,13 @@ use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\MermaController;
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
 Route::resource('users', UserController::class);
+Route::resource('mermas', MermaController::class);
+
 
 // Ruta para mostrar el formulario de login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -87,9 +90,13 @@ Route::get('/admin/products/{id}/edit', function ($id) {
 })->name('productos.edit');
 
 // Ruta para mostrar la interfaz de "Registrar Merma"
-Route::get('/admin/mermas/create', function () {
-    return view('admin.create-merma');
-})->name('admin.mermas.create');
+Route::get('/admin/mermas/create', [MermaController::class, 'create'])
+     ->name('admin.mermas.create');
+     
+Route::post('/admin/mermas',         [MermaController::class,'store'])
+     ->name('admin.mermas.store');
+
+
 
 // Ruta para proveedores
 Route::get('/api/proveedores', [ProveedorController::class, 'index']);
