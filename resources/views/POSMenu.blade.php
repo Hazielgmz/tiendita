@@ -49,30 +49,37 @@
         </div>
       </div>
     </div>
-
-    <div class="md:col-span-4 flex flex-col h-full">
-      <div class="bg-white shadow rounded flex-1 flex flex-col">
-        <div class="p-4 flex flex-col h-full">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold flex items-center gap-2">Carrito</h2>
-            <button id="btn-vaciar" class="border border-gray-400 px-2 py-1 rounded">Vaciar</button>
-          </div>
-          <div id="carrito-contenido" class="flex-1 overflow-y-auto">
-            <div class="flex flex-col items-center justify-center text-gray-500 h-full">
-              <p>El carrito está vacío</p>
-            </div>
-          </div>
-          <div class="border-t pt-4 space-y-2">
-            <div class="flex justify-between text-lg">
-              <span class="font-bold">Total:</span>
-              <span id="total-display" class="font-bold text-green-600">$0.00</span>
-            </div>
-            <button id="btn-pago" class="w-full bg-green-500 text-white py-2 rounded">Proceder al Pago</button>
-          </div>
+<div class="md:col-span-4 flex flex-col h-full">
+  <!-- Panel scrollable de los items -->
+  <div class="bg-white shadow rounded flex-1 flex flex-col overflow-hidden">
+    <div class="p-4 flex flex-col h-full">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Carrito</h2>
+        <button id="btn-vaciar" class="border border-gray-400 px-2 py-1 rounded">Vaciar</button>
+      </div>
+      <div id="carrito-contenido"
+           class="flex-1 overflow-y-auto"
+           style="max-height: calc(100vh - 240px);">
+        <div class="flex flex-col items-center justify-center text-gray-500 h-full">
+          <p>El carrito está vacío</p>
         </div>
+        <!-- aquí irán tus .producto -->
       </div>
     </div>
   </div>
+
+  <!-- Bloque fijo abajo: Total + Botón -->
+  <div class="bg-gray-100 border-t rounded-b-md mt-4 p-2">
+    <div class="flex justify-between text-lg mb-2">
+      <span class="font-bold">Total:</span>
+      <span id="total-display" class="font-bold text-green-600">$0.00</span>
+    </div>
+    <button id="btn-pago"
+            class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+      Proceder al Pago
+    </button>
+  </div>
+</div>
 
   <div id="modal-pago" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white rounded p-4 w-11/12 max-w-md">
