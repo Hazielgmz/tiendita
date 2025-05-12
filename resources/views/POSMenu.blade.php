@@ -40,7 +40,7 @@
         <form method="POST" action="{{ route('logout') }}">
     @csrf
     <button type="submit" id="btn-salir" class="flex flex-col items-center gap-1 py-2 px-4 bg-red-500 text-white font-bold rounded hover:bg-red-600 transition duration-300">
-        Salir
+        cerrar sesion
     </button>
 </form>
 <a href="{{ route('admin.password') }}" id="btn-mas" class="flex flex-col items-center gap-1 py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition duration-300">
