@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Producto; // 
+use App\Models\Merma; // Asegúrate de incluir el modelo Merma
+use App\Models\Proveedor; // Asegúrate de incluir el modelo Proveedor
+use App\Models\Venta; // Asegúrate de incluir el modelo Venta
+use App\Models\Reporte; // Asegúrate de incluir el modelo Reporte
 
 class AdminPanelController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard'); // Asegúrate de que la vista 'admin.dashboard' exista
+        // Suma total de ventas
+        $totalVentas   = Venta::sum('total');
+        // Cantidad de transacciones (ventas)
+        $transacciones = Venta::count();
+        // Cantidad de productos
+        $productos     = Producto::count();
+
+        return view('admin.dashboard', compact('totalVentas', 'transacciones', 'productos'));
     }
 
     public function index(Request $request)
@@ -22,9 +33,6 @@ class AdminPanelController extends Controller
     public function usuarios()
     {
         $users = User::all();
-
-        // Retorna la vista 'admin.users' (es decir, resources/views/admin/users.blade.php)
-        // pasando la variable $users para que la vista pueda iterar sobre ella.
         return view('admin.users', compact('users'));
     }
 
@@ -46,7 +54,8 @@ class AdminPanelController extends Controller
 
     public function mermas()
     {
-        return view('admin.mermas'); // Asegúrate de que este archivo exista
+        $mermas = Merma::all();
+        return view('admin.mermas', compact('mermas')); // Asegúrate de que este archivo exista
     }
 
     public function estadisticas()

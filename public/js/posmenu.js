@@ -34,13 +34,24 @@ function renderProductos() {
 
 // Agrega producto al carrito
 function agregarAlCarrito(producto) {
-  const itemExistente = carrito.find(item => item.producto.id === producto.id);
-  if (itemExistente) {
-    itemExistente.cantidad++;
-    itemExistente.subtotal = itemExistente.cantidad * Number(producto.precio_unitario);
+  const idx = carrito.findIndex(item => item.producto.id === producto.id);
+
+  if (idx !== -1) {
+    // Si ya existe, actualiza cantidad y subtotal…
+    carrito[idx].cantidad++;
+    carrito[idx].subtotal = carrito[idx].cantidad * Number(producto.precio_unitario);
+    // …y lo mueve al inicio:
+    const [itemExistente] = carrito.splice(idx, 1);
+    carrito.unshift(itemExistente);
   } else {
-    carrito.push({ producto, cantidad: 1, subtotal: Number(producto.precio_unitario) });
+    // Si es nuevo, lo pone directamente al inicio
+    carrito.unshift({
+      producto,
+      cantidad: 1,
+      subtotal: Number(producto.precio_unitario)
+    });
   }
+
   renderCarrito();
 }
 

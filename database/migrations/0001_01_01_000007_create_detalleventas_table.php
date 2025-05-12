@@ -8,19 +8,21 @@ class CreateDetalleVentasTable extends Migration
 {
     public function up()
     {
-        Schema::create('detalle_ventas', function (Blueprint $table) {
-            $table->id(); // ID del detalle de venta
-            $table->bigInteger('venta_id')->unsigned(); // ID de la venta
-            $table->string('producto_ids'); // Campo para almacenar múltiples IDs de producto
+        Schema::create('detalleventas', function (Blueprint $table) {
+            $table->id();
+            
+            // Usamos foreignId para que concuerde con bigIncrements en 'venta'
+            $table->foreignId('venta_id')
+                  ->constrained('venta')    // <<< aquí singular, igual que tu tabla
+                  ->onDelete('cascade');
+    
+            $table->string('producto_ids');
             $table->timestamps();
-
-            // Foreign key constraints
-            $table->foreign('venta_id')->references('id')->on('ventas')->onDelete('cascade');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('detalle_ventas');
+        Schema::dropIfExists('detalleventas');
     }
 }

@@ -13,16 +13,13 @@ return new class extends Migration
     {
         Schema::create('merma', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('id_producto')->unsigned();
+            // FK a productos.id
+            $table->foreignId('producto_id')
+                  ->constrained('producto')
+                  ->onDelete('cascade');
             $table->integer('cantidad');
-            $table->String('motivo');
+            $table->text('motivo');
             $table->timestamps();
-
-            // Foreign key constraint
-            $table->foreign('id_producto')->references('id')->on('productos')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -7,10 +7,14 @@ use App\Http\Controllers\POSMenuController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\MermaController;
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
 Route::resource('users', UserController::class);
+Route::resource('mermas', MermaController::class);
+
 
 // Ruta para mostrar el formulario de login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -53,41 +57,55 @@ Route::get('/admin/reports/ventas/generar', [AdminPanelController::class, 'gener
 Route::get('/admin/reports/mermas/generar', [AdminPanelController::class, 'generarReporteMermas'])->name('admin.reports.mermas.generar');
 Route::get('/admin/reports/usuarios/generar', [AdminPanelController::class, 'generarReporteUsuarios'])->name('admin.reports.usuarios.generar');
 
-
 // Ruta para mostrar la interfaz de "Alta de Usuario"
 Route::get('/admin/create-user', function () {
     return view('admin.create-user');
 })->name('admin.create-user');
 
+// Route::post('/admin/create-user', function () {
+//     return view('admin.create-user');
+// })->name('admin.create-user');
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    // Muestra el listado de usuarios
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    // Formulario de registro
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    // Procesa el registro
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+});
 
 // Ruta para mostrar la interfaz de edición de un usuario
 Route::get('/admin/users/{id}/edit', function ($id) {
     return view('admin.edit-user', ['id' => $id]);
 })->name('admin.users.edit');
 
-
-// Ruta para mostrar la interfaz de "Alta de Producto"
-Route::get('/admin/create-product', function () {
-    return view('admin.create-product');
-})->name('admin.create-product');
-
+// Rutas para crear producto
+Route::get('/admin/create-product', [ProductoController::class, 'create'])->name('admin.create-product'); // Ruta corregida
+Route::post('/admin/store-product', [ProductoController::class, 'store'])->name('productos.store');
 
 // Ruta para mostrar la interfaz de edición de un producto
 Route::get('/admin/products/{id}/edit', function ($id) {
     return view('admin.edit-product', ['id' => $id]);
 })->name('productos.edit');
 
-
 // Ruta para mostrar la interfaz de "Registrar Merma"
-Route::get('/admin/mermas/create', function () {
-    return view('admin.create-merma');
-})->name('admin.mermas.create');
+Route::get('/admin/mermas/create', [MermaController::class, 'create'])
+     ->name('admin.mermas.create');
+     
+Route::post('/admin/mermas',         [MermaController::class,'store'])
+     ->name('admin.mermas.store');
 
 
-Route::get('/proveedores', function () {
-    return view('admin.proveedores');
-})->name('proveedores.index');
 
+// Ruta para proveedores
+Route::get('/api/proveedores', [ProveedorController::class, 'index']);
+Route::post('/api/proveedores', [ProveedorController::class, 'store'])->name('proveedores.store');
+Route::delete('/api/proveedores/{id}', [ProveedorController::class, 'destroy']);
+Route::put('/api/proveedores/{id}', [ProveedorController::class, 'update']);
+
+//Crear proveedores
+Route::get('/admin/proveedores/create-proveedores', [ProveedorController::class, 'create']);
 
 // Ruta para mostrar la interfaz de "Punto de Venta"
 Route::get('/punto-de-venta', function () {
@@ -95,10 +113,8 @@ Route::get('/punto-de-venta', function () {
     return view('POSMenu', compact('productos')); // Envía la variable a la vista
 })->name('punto-de-venta');
 
-
 // Ruta para cerrar sesión
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 
 // Ruta para mostrar la interfaz de clave
 Route::get('/admin/password', function () {

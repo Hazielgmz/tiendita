@@ -3,45 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Proveedor; // Asegúrate de incluir el modelo Proveedor
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    /**
-     * Muestra el formulario para editar un producto.
-     */
-    public function edit($id)
+    // Método para mostrar el formulario de creación
+    public function create()
     {
-        // Buscar el producto por su ID
-        $product = Producto::findOrFail($id);
-
-        // Retornar la vista de edición con los datos del producto
-        return view('admin.edit-product', compact('product'));
+        $proveedores = Proveedor::all(); // Obtener todos los proveedores
+        return view('admin.create-product', compact('proveedores')); // Pasar proveedores a la vista
     }
 
-    /**
-     * Actualiza un producto en la base de datos.
-     */
-    public function update(Request $request, $id)
+    // Método para almacenar el nuevo producto
+    public function store(Request $request)
     {
         // Validar los datos
         $request->validate([
-            'codigo' => 'required|string|max:255|unique:products,codigo,' . $id,
-            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:50|unique:producto,codigo_barras',
+            'nombre' => 'required|string|max:100',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'imagen_url' => 'nullable|url',
+            'costo' => 'nullable|numeric|min:0',
+            'tipo' => 'nullable|string|max:50',
+            'estado' => 'nullable|string|max:20',
+            'proveedor_id' => 'required|exists:proveedor,id', // Validar la existencia del proveedor
         ]);
 
-        // Buscar el producto por su ID y actualizarlo
-        $product = Producto::findOrFail($id);
-        $product->update([
-            'codigo' => $request->codigo,
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
+        // Crear el nuevo producto
+        Producto::create([
+            'codigo_barras' => $request->codigo,
+            'nombre_producto' => $request->nombre,
+            'precio_unitario' => $request->precio,
             'stock' => $request->stock,
+            'imagen_url' => $request->imagen_url,
+            'costo' => $request->costo,
+            'tipo' => $request->tipo,
+            'estado' => $request->estado ?? 'activo',
+            'proveedor_id' => $request->proveedor_id, // Guardar el proveedor asociado
         ]);
 
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('admin.products')->with('success', 'Producto actualizado correctamente.');
+        // Redirigir a /admin/reports con un mensaje de éxito
+        return redirect('/admin/reports')->with('success', 'Producto creado correctamente.');
     }
 }
