@@ -9,13 +9,15 @@ use App\Models\Merma; // Asegúrate de incluir el modelo Merma
 use App\Models\Proveedor; // Asegúrate de incluir el modelo Proveedor
 use App\Models\Venta; // Asegúrate de incluir el modelo Venta
 use App\Models\Reporte; // Asegúrate de incluir el modelo Reporte
+use Carbon\Carbon;   
 
 class AdminPanelController extends Controller
 {
     public function dashboard()
     {
         // Suma total de ventas
-        $totalVentas   = Venta::sum('total');
+        $totalVentas   = Venta::whereDate('fecha', Carbon::today())
+                          ->sum('total');
         // Cantidad de transacciones (ventas)
         $transacciones = Venta::count();
         // Cantidad de productos
