@@ -15,6 +15,35 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+<<<<<<< HEAD
+=======
+        .header-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            margin-right: 15px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #e0e0e0;
+        }
+        .back-icon {
+            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+        }
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
         h1 {
             font-size: 24px;
             color: #333;
@@ -87,6 +116,12 @@
         .modal-header {
             margin-bottom: 15px;
         }
+<<<<<<< HEAD
+=======
+        .modal-body {
+            margin-bottom: 20px;
+        }
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
         .modal-footer {
             margin-top: 20px;
             text-align: right;
@@ -102,8 +137,23 @@
 </head>
 <body>
     <div class="container">
+<<<<<<< HEAD
         <h1>Gestión de Devoluciones</h1>
         <p>Administra las devoluciones de productos</p>
+=======
+        <div class="header-container">
+            <button class="back-button" onclick="goBack()">
+                <svg class="back-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Atrás
+            </button>
+            <div>
+                <h1>Gestión de Devoluciones</h1>
+                <p>Administra las devoluciones de productos</p>
+            </div>
+        </div>
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
 
         <div class="table-container">
             <table>
@@ -113,7 +163,10 @@
                         <th>Usuario</th>
                         <th>Fecha</th>
                         <th>Precio</th>
+<<<<<<< HEAD
                         <th>Acciones</th>
+=======
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                 </thead>
                 <tbody>
@@ -122,57 +175,77 @@
                         <td>Aguacate</td>
                         <td>$25.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-active">Activo</span></td>
                         <td>
                             <button class="btn btn-devolver" onclick="abrirModalConfirmacion('1001')">Devolver</button>
                         </td>
+=======
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                     <tr>
                         <td>1002</td>
                         <td>Avena</td>
                         <td>$5.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-active">Activo</span></td>
                         <td>
                             <button class="btn btn-devolver" onclick="abrirModalConfirmacion('1002')">Devolver</button>
                         </td>
+=======
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                     <tr>
                         <td>1003</td>
                         <td>Granola</td>
                         <td>$10.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-active">Activo</span></td>
                         <td>
                             <button class="btn btn-devolver" onclick="abrirModalConfirmacion('1003')">Devolver</button>
                         </td>
+=======
+                       
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                     <tr>
                         <td>1004</td>
                         <td>Platano</td>
                         <td>$5.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-active">Activo</span></td>
                         <td>
                             <button class="btn btn-devolver" onclick="abrirModalConfirmacion('1004')">Devolver</button>
                         </td>
+=======
+                       
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                     <tr>
                         <td>1005</td>
                         <td>Manzana</td>
                         <td>$10.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-active">Activo</span></td>
                         <td>
                             <button class="btn btn-devolver" onclick="abrirModalConfirmacion('1005')">Devolver</button>
                         </td>
+=======
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                     </tr>
                     <tr>
                         <td>1006</td>
                         <td>Naranja</td>
                         <td>$8.00</td>
                         <td>1000</td>
+<<<<<<< HEAD
                         <td><span class="badge badge-returned">Devuelto</span></td>
+=======
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
                         <td>
                             <!-- No hay botón de devolver para productos ya devueltos -->
                         </td>
@@ -218,6 +291,13 @@
             cerrarModal();
         }
         
+<<<<<<< HEAD
+=======
+        function goBack() {
+            window.history.back();
+        }
+        
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
         // Cerrar el modal si se hace clic fuera de él
         window.onclick = function(event) {
             const modal = document.getElementById('modalConfirmacion');

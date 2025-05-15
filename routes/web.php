@@ -7,10 +7,17 @@ use App\Http\Controllers\POSMenuController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
+<<<<<<< HEAD
+use App\Http\Controllers\DevolucionesController;
+=======
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\MermaController;
+<<<<<<< HEAD
 use App\Http\Controllers\DevolucionesController;
 use App\Http\Controllers\ReportController;
+=======
+>>>>>>> feb69201f5117a3cb5c309cf1b8921e20ffb248a
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
@@ -126,9 +133,15 @@ Route::get('/admin/password', function () {
 // Ruta para validar la clave ingresada
 Route::post('/admin/password/check', [AuthController::class, 'checkPassword'])->name('admin.password.check');
 
+<<<<<<< HEAD
 
 Route::get('/admin/devoluciones', [DevolucionesController::class, 'index'])->name('admin.devoluciones');
 
 
 Route::get('/admin/reports/inventory', [ReportController::class, 'inventory'])
      ->name('admin.reports.inventory');
+=======
+// Ruta para la página de devoluciones
+Route::get('/admin/devoluciones', [DevolucionesController::class, 'index'])->name('admin.devoluciones');
+
+>>>>>>> aa12fc19d6a10b7cefca771f78d09a7e857052d3
