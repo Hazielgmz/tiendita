@@ -43,6 +43,9 @@
     <a href="{{ route('admin.products') }}">Productos</a>
     <a href="{{ route('admin.waste') }}">Mermas</a>
     <a href="{{ route('admin.proveedores') }}">Proveedores</a>
+  <a href="{{ route('admin.devoluciones') }}" class="menu-link">
+    Devoluciones
+</a>
 
     <a href="/punto-de-venta" class="menu-link">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

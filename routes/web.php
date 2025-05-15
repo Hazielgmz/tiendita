@@ -7,6 +7,7 @@ use App\Http\Controllers\POSMenuController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DevolucionesController;
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
@@ -107,3 +108,7 @@ Route::get('/admin/password', function () {
 
 // Ruta para validar la clave ingresada
 Route::post('/admin/password/check', [AuthController::class, 'checkPassword'])->name('admin.password.check');
+
+// Ruta para la página de devoluciones
+Route::get('/admin/devoluciones', [DevolucionesController::class, 'index'])->name('admin.devoluciones');
+
