@@ -59,7 +59,7 @@
                     <h4 class="text-lg font-bold">Reporte de Inventario</h4>
                 </div>
                 <p class="text-gray-600 mt-2">Consulta el estado actual del inventario.</p>
-                <button class="btn btn-primary mt-4 w-full">Generar Reporte</button>
+                <a href="{{ route('admin.reports.inventory') }}" class="btn btn-primary mt-4 w-full">Generar Reporte</a>
             </div>
 
             <!-- Reporte de Mermas -->

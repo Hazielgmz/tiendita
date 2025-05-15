@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\MermaController;
+use App\Http\Controllers\DevolucionesController;
+use App\Http\Controllers\ReportController;
 
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
@@ -123,3 +125,10 @@ Route::get('/admin/password', function () {
 
 // Ruta para validar la clave ingresada
 Route::post('/admin/password/check', [AuthController::class, 'checkPassword'])->name('admin.password.check');
+
+
+Route::get('/admin/devoluciones', [DevolucionesController::class, 'index'])->name('admin.devoluciones');
+
+
+Route::get('/admin/reports/inventory', [ReportController::class, 'inventory'])
+     ->name('admin.reports.inventory');
