@@ -16,6 +16,11 @@ class UserController extends Controller
         $users = User::all();
         return view('admin.users', compact('users'));
     }
+     // Muestra el formulario de creación
+     public function create()
+     {
+         return view('admin.create-user');
+     }
 
     /**
      * Guarda un nuevo usuario en la base de datos.
@@ -26,7 +31,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:4',
         ]);
 
         // Crear el usuario
@@ -39,4 +44,16 @@ class UserController extends Controller
         // Redirigir con un mensaje de éxito
         return redirect()->route('admin.users')->with('success', 'Usuario registrado correctamente.');
     }
+    public function destroy(User $user)
+    {
+        // Eliminar el registro
+        $user->delete();
+
+        // Redirigir al listado con mensaje de éxito
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Usuario eliminado correctamente.');
+    }
+
+
 }

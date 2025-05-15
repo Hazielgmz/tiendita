@@ -9,7 +9,7 @@
             <!-- Stat Card 1 -->
             <div class="stat-card bg-white text-gray-800 shadow-md rounded-lg p-6">
                 <div class="stat-card-header flex justify-between items-center">
-                    <span class="stat-card-title text-lg font-bold">Ventas Totales</span>
+                    <span class="stat-card-title text-lg font-bold">Ventas Totales del dia</span>
                     <div class="stat-card-icon bg-gray-100 text-blue-500 p-3 rounded-full shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="8" cy="21" r="1"></circle>
@@ -18,13 +18,15 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">$45,231.89</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    ${{ number_format($totalVentas, 2) }}
+                </div>
             </div>
 
             <!-- Stat Card 2 -->
             <div class="stat-card bg-white text-gray-800 shadow-md rounded-lg p-6">
                 <div class="stat-card-header flex justify-between items-center">
-                    <span class="stat-card-title text-lg font-bold">Transacciones</span>
+                    <span class="stat-card-title text-lg font-bold">Transacciones del dia</span>
                     <div class="stat-card-icon bg-gray-100 text-green-500 p-3 rounded-full shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -34,7 +36,9 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">+2,350</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    {{ number_format($transacciones) }}
+                </div>
             </div>
 
             <!-- Stat Card 3 -->
@@ -50,7 +54,11 @@
                         </svg>
                     </div>
                 </div>
-                <div class="stat-card-value text-3xl font-bold mt-4">1,245</div>
+                <div class="stat-card-value text-3xl font-bold mt-4">
+                    {{ number_format($productos) }}
+                </div>
             </div>
 
+        </div>
+    </div>
 @endsection

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Mermas</title>
+{{-- resources/views/admin/create-merma.blade.php --}}
+@extends('admin.layout')
+
+@section('header-title', 'Alta de Mermas')
+
+@section('content')
     <style>
         /* Estilos generales */
         * {
@@ -30,6 +30,8 @@
             display: flex;
             align-items: center;
             margin-bottom: 1.5rem;
+            justify-content: center; /* Centra horizontalmente */
+            text-align: center;
         }
         
         .back-button {
@@ -131,8 +133,6 @@
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 1px #2563eb;
-
-            
         }
         
         /* Botón */
@@ -154,65 +154,60 @@
         .button:hover {
             background-color: #1d4ed8;
         }
+
         .btn-secondary {
-        background-color: #6b7280; /* Color gris similar al de la imagen */
-        color: white;
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border: none;
-        border-radius: 0.375rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        margin-right: 0.5rem; /* Espaciado entre los botones */
-    }
-
+            background-color: #6b7280;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 0.5rem;
+        }
     </style>
-</head>
-<body>
+
     <div class="container">
-    <div class="header">
-    <h1 class="title">Alta de Mermas</h1>
-</div>
-
-<style>
-    .header {
-        display: flex;
-        justify-content: center; /* Centra horizontalmente */
-        align-items: center; /* Centra verticalmente si es necesario */
-        text-align: center; /* Asegura que el texto esté centrado */
-    }
-
-    .title {
-        font-size: 1.5rem;
-        font-weight: 700;
-    }
-</style>
+        <div class="header">
+            <button class="back-button" onclick="history.back()">
+                <svg class="back-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Volver
+            </button>
+            <h1 class="title">Alta de Mermas</h1>
+        </div>
 
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">Registrar Nueva Merma</h2>
             </div>
             <div class="card-content">
-                <form class="form-grid">
+                <form method="POST" action="{{ route('admin.mermas.store') }}" class="form-grid">
+                    @csrf
+
                     <div class="form-group">
-                        <label class="form-label" for="producto">Producto</label>
-                        <select class="form-select" id="producto">
+                        <label class="form-label" for="producto_id">Producto</label>
+                        <select name="producto_id" id="producto_id" class="form-select" required>
                             <option value="" disabled selected>Seleccionar producto</option>
-                            <option value="producto1">Producto 1</option>
-                            <option value="producto2">Producto 2</option>
-                            <option value="producto3">Producto 3</option>
+                            @foreach($productos as $producto)
+                                <option value="{{ $producto->id }}">
+                                    {{ $producto->nombre_producto }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="cantidad">Cantidad</label>
-                        <input class="form-input" id="cantidad" type="number" min="1">
+                        <input name="cantidad" id="cantidad" class="form-input" type="number" min="1" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="motivo">Motivo</label>
-                        <select class="form-select" id="motivo">
+                        <select name="motivo" id="motivo" class="form-select" required>
                             <option value="" disabled selected>Seleccionar motivo</option>
                             <option value="caducidad">Caducidad</option>
                             <option value="daño">Daño</option>
@@ -220,12 +215,13 @@
                             <option value="otro">Otro</option>
                         </select>
                     </div>
-            </div>
-            <div class="card-footer">
-            <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
-                <button class="button" type="submit">Registrar Merma</button>
+
+                    <div class="card-footer" style="grid-column: span 2; justify-content: flex-end;">
+                        <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
+                        <button type="submit" class="button">Registrar Merma</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection
