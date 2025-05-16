@@ -4,83 +4,86 @@ namespace App\Http\Controllers;
 
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-
 
 class ProveedorController extends Controller
 {
+    /**
+     * Muestra el listado de proveedores.
+     */
     public function index()
     {
-        $proveedores = Proveedor::all();
-        return response()->json($proveedores);
-        
+        $proveedores = Proveedor::orderBy('nombre')->get();
+        return view('admin.proveedores', compact('proveedores'));
     }
 
+    /**
+     * Muestra el formulario para crear un nuevo proveedor.
+     */
     public function create()
     {
-        return view('admin.create-proveedores'); // Asegúrate de que esta vista exista
+        return view('admin.create-proveedores');
     }
 
-    public function up()
-    {
-        Schema::create('proveedores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre', 100);
-            $table->string('direccion', 255)->nullable();
-            $table->string('email', 100)->nullable();
-            $table->string('telefono', 20)->nullable();
-            $table->string('estado', 50)->nullable();
-            $table->timestamps();
-        });
-    }
-
+    /**
+     * Valida y almacena un nuevo proveedor.
+     */
     public function store(Request $request)
     {
-        // Validar los datos
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:100',
+        $data = $request->validate([
+            'nombre'    => 'required|string|max:100',
             'direccion' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:100',
-            'telefono' => 'nullable|string|max:20',
-            'estado' => 'nullable|string|max:50',
+            'email'     => 'nullable|email|max:100',
+            'telefono'  => 'nullable|string|max:20',
+            'estado'    => 'required|string|max:100',  // Ahora es la entidad federativa
         ]);
 
-        // Crear el proveedor
-        Proveedor::create($validatedData);
+        Proveedor::create($data);
 
-        // Redirigir a la vista de creación de proveedores
-        return view('admin.create-proveedores')->with('success', 'Proveedor creado con éxito');
+        return redirect()
+            ->route('admin.proveedores.index')
+            ->with('success', 'Proveedor creado correctamente.');
     }
 
-    public function destroy($id)
+    /**
+     * Muestra el formulario para editar un proveedor existente.
+     */
+    public function edit($id)
     {
-        $proveedor = Proveedor::find($id);
-        
-        if ($proveedor) {
-            $proveedor->delete();
-            return response()->json(['message' => 'Proveedor eliminado con éxito.'], 200);
-        }
-        
-        return response()->json(['message' => 'Proveedor no encontrado.'], 404);
+        $proveedor = Proveedor::findOrFail($id);
+        return view('admin.edit-proveedores', compact('proveedor'));
     }
 
+    /**
+     * Valida y actualiza un proveedor existente.
+     */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:100',
+        $data = $request->validate([
+            'nombre'    => 'required|string|max:100',
             'direccion' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:100',
-            'telefono' => 'nullable|string|max:20',
-            'estado' => 'nullable|string|max:50',
+            'email'     => 'nullable|email|max:100',
+            'telefono'  => 'nullable|string|max:20',
+            'estado'    => 'required|string|max:100',  // Aquí también
         ]);
 
-        $proveedor = Proveedor::find($id);
-        if ($proveedor) {
-            $proveedor->update($validatedData);
-            return response()->json(['message' => 'Proveedor actualizado con éxito.'], 200);
-        }
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->update($data);
 
-        return response()->json(['message' => 'Proveedor no encontrado.'], 404);
+        return redirect()
+            ->route('admin.proveedores.index')
+            ->with('success', 'Proveedor actualizado correctamente.');
+    }
+
+    /**
+     * Elimina un proveedor.
+     */
+    public function destroy($id)
+    {
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->delete();
+
+        return redirect()
+            ->route('admin.proveedores.index')
+            ->with('success', 'Proveedor eliminado correctamente.');
     }
 }

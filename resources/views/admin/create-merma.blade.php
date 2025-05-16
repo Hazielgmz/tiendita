@@ -1,196 +1,164 @@
-{{-- resources/views/admin/create-merma.blade.php --}}
-@extends('admin.layout')
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Merma</title>
 
-@section('header-title', 'Alta de Mermas')
+    {{-- Carga tu CSS compilado (Tailwind/Bootstrap o tu propio app.css) --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-@section('content')
     <style>
-        /* Estilos generales */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        
+
         body {
-            background-color: #f9fafb;
-            color: #111827;
-            line-height: 1.5;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
         }
-        
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
-        
-        /* Encabezado */
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            justify-content: center; /* Centra horizontalmente */
+
+        h1 {
             text-align: center;
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 24px;
         }
-        
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            margin-right: 1rem;
-            background-color: transparent;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .back-button:hover {
-            background-color: #f3f4f6;
-        }
-        
-        .back-icon {
-            margin-right: 0.5rem;
-            width: 1rem;
-            height: 1rem;
-        }
-        
-        .title {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        /* Tarjeta */
+
         .card {
             background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            max-width: 48rem;
-            margin: 0 auto 1.5rem auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        
+
         .card-header {
-            padding: 1.5rem 1.5rem 0 1.5rem;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
         }
-        
-        .card-title {
-            font-size: 1.25rem;
+
+        .card-header h2 {
+            text-align: center;
+            font-size: 20px;
             font-weight: 600;
-            color: #111827;
         }
-        
+
         .card-content {
-            padding: 1.5rem;
+            padding: 20px;
         }
-        
+
         .card-footer {
-            padding: 1rem 1.5rem;
+            padding: 20px;
+            border-top: 1px solid #eee;
             display: flex;
-            justify-content: flex-end;
-            border-top: 1px solid #e5e7eb;
+            gap: 10px;
         }
-        
-        /* Formulario */
-        .form-grid {
-            display: grid;
-            gap: 1rem;
-        }
-        
-        @media (min-width: 768px) {
-            .form-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
+
         .form-group {
-            display: grid;
-            gap: 0.5rem;
+            margin-bottom: 20px;
         }
-        
-        .form-label {
-            font-size: 0.875rem;
+
+        label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 500;
-            color: #374151;
+            font-size: 14px;
         }
-        
-        .form-input,
-        .form-select {
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"] {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            background-color: white;
-            color: #111827;
-            font-size: 0.875rem;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
         }
-        
-        .form-input:focus,
-        .form-select:focus {
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus {
             outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 1px #2563eb;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
         }
-        
-        /* Botón */
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            background-color: #2563eb;
+
+        .btn-primary,
+        .btn-secondary {
+            padding: 12px;
             color: white;
-            font-size: 0.875rem;
-            font-weight: 500;
             border: none;
-            border-radius: 0.375rem;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
+            text-align: center;
+            text-decoration: none;
         }
-        
-        .button:hover {
-            background-color: #1d4ed8;
+
+        .btn-primary {
+            background-color: #4f46e5;
+            flex: 2;
         }
 
         .btn-secondary {
             background-color: #6b7280;
-            color: white;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-right: 0.5rem;
+            flex: 1;
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+            }
         }
     </style>
-
+</head>
+<body>
     <div class="container">
-        <div class="header">
-            <button class="back-button" onclick="history.back()">
-                <svg class="back-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Volver
-            </button>
-            <h1 class="title">Alta de Mermas</h1>
-        </div>
+        <h1>Alta de Merma</h1>
+
+        @if ($errors->any())
+            <div class="alert alert-danger" style="margin-bottom:20px;">
+                <ul>
+                    @foreach ($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title">Registrar Nueva Merma</h2>
+                <h2>Registrar Merma</h2>
             </div>
-            <div class="card-content">
-                <form method="POST" action="{{ route('admin.mermas.store') }}" class="form-grid">
-                    @csrf
 
+            <form action="{{ route('admin.mermas.store') }}" method="POST">
+                @csrf
+                <div class="card-content">
                     <div class="form-group">
-                        <label class="form-label" for="producto_id">Producto</label>
-                        <select name="producto_id" id="producto_id" class="form-select" required>
+                        <label for="producto_id">Producto</label>
+                        <select
+                            id="producto_id"
+                            name="producto_id"
+                            required
+                            style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;font-size:16px;"
+                        >
                             <option value="" disabled selected>Seleccionar producto</option>
                             @foreach($productos as $producto)
                                 <option value="{{ $producto->id }}">
@@ -201,13 +169,24 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="cantidad">Cantidad</label>
-                        <input name="cantidad" id="cantidad" class="form-input" type="number" min="1" required>
+                        <label for="cantidad">Cantidad</label>
+                        <input
+                            type="number"
+                            id="cantidad"
+                            name="cantidad"
+                            min="1"
+                            required
+                        >
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="motivo">Motivo</label>
-                        <select name="motivo" id="motivo" class="form-select" required>
+                        <label for="motivo">Motivo</label>
+                        <select
+                            id="motivo"
+                            name="motivo"
+                            required
+                            style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;font-size:16px;"
+                        >
                             <option value="" disabled selected>Seleccionar motivo</option>
                             <option value="caducidad">Caducidad</option>
                             <option value="daño">Daño</option>
@@ -215,13 +194,14 @@
                             <option value="otro">Otro</option>
                         </select>
                     </div>
+                </div>
 
-                    <div class="card-footer" style="grid-column: span 2; justify-content: flex-end;">
-                        <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
-                        <button type="submit" class="button">Registrar Merma</button>
-                    </div>
-                </form>
-            </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-secondary" onclick="history.back()">Atrás</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
-@endsection
+</body>
+</html>

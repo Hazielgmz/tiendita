@@ -38,10 +38,17 @@ class AdminPanelController extends Controller
         return view('admin.users', compact('users'));
     }
 
-    public function productos()
+    public function productos(Request $request)  // ← recibe Request
     {
-        $products = Producto::all();
-        return view('admin.products', compact('products')); // Asegúrate de que este archivo exista
+         $q = $request->input('q');
+
+        $products = Producto::when($q, function($query, $q) {
+                $query->where('codigo_barras', 'like', "%{$q}%");
+            })
+            ->orderBy('nombre_producto', 'asc')
+            ->get();
+
+        return view('admin.products', compact('products', 'q'));
     }
 
     public function proveedores()

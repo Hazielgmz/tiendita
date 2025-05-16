@@ -47,4 +47,21 @@ class ProductoController extends Controller
         // Redirigir a /admin/reports con un mensaje de éxito
         return redirect('/admin/reports')->with('success', 'Producto creado correctamente.');
     }
+
+    public function update(Request $request, Producto $producto)
+    {
+        // Validamos únicamente los campos que queremos editar
+        $data = $request->validate([
+            'precio_unitario' => 'required|numeric|min:0',
+            'stock'           => 'required|integer|min:0',
+        ]);
+
+        // Guardamos los cambios
+        $producto->update($data);
+
+        // Redirigimos de vuelta al listado con un mensaje de éxito
+        return redirect()
+            ->back()// ajusta esta ruta al nombre de tu índice
+            ->with('success', 'Producto actualizado correctamente.');
+    }
 }

@@ -101,10 +101,13 @@ Route::post('/admin/mermas',         [MermaController::class,'store'])
 
 
 // Ruta para proveedores
-Route::get('/api/proveedores', [ProveedorController::class, 'index']);
-Route::post('/api/proveedores', [ProveedorController::class, 'store'])->name('proveedores.store');
-Route::delete('/api/proveedores/{id}', [ProveedorController::class, 'destroy']);
-Route::put('/api/proveedores/{id}', [ProveedorController::class, 'update']);
+Route::prefix('admin')
+     ->name('admin.')
+     ->middleware('auth')
+     ->group(function () {
+         Route::resource('proveedores', ProveedorController::class)
+              ->except(['show']);
+     });
 
 //Crear proveedores
 Route::get('/admin/proveedores/create-proveedores', [ProveedorController::class, 'create']);

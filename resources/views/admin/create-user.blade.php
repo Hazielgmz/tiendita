@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crea una cuenta</title>
 
-    {{-- Carga tu CSS compilado (Tailwind/Bootstrap o tu propio app.css) --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <style>
