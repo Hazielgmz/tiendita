@@ -13,8 +13,6 @@
     <div class="md:col-span-8 flex flex-col h-full">
       <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold text-gray-800">Punto de venta</h1>
-        
-        <!-- Información del usuario -->
         <div class="flex items-center gap-3">
           <div class="user-info">
             <div class="user-avatar">
@@ -282,27 +280,20 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
-    .product-image {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-      margin-bottom: 0.75rem;
-    }
-    
     .product-name {
       font-size: 0.875rem;
       font-weight: 600;
       text-align: center;
       color: #1f2937;
     }
-    
+
     .product-price {
       font-size: 0.875rem;
       color: #059669;
       font-weight: 600;
       margin-top: 0.25rem;
     }
-    
+
     /* Estilos para los elementos del carrito */
     .cart-item {
       display: flex;
@@ -311,28 +302,28 @@
       padding: 0.75rem;
       border-bottom: 1px solid #e5e7eb;
     }
-    
+
     .cart-item-info {
       flex: 1;
     }
-    
+
     .cart-item-name {
       font-weight: 500;
       color: #1f2937;
       font-size: 0.875rem;
     }
-    
+
     .cart-item-price {
       font-size: 0.875rem;
       color: #059669;
     }
-    
+
     .cart-item-quantity {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .quantity-btn {
       display: flex;
       align-items: center;
@@ -344,24 +335,24 @@
       border: 1px solid #e5e7eb;
       cursor: pointer;
     }
-    
+
     .quantity-btn:hover {
       background-color: #e5e7eb;
     }
-    
+
     .quantity-value {
       font-weight: 600;
       color: #1f2937;
       min-width: 24px;
       text-align: center;
     }
-    
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .user-info {
         padding: 0.375rem;
       }
-      
+
       .user-avatar {
         width: 32px;
         height: 32px;
@@ -377,6 +368,7 @@
     document.getElementById('barcode-input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') buscarPorCodigoBarras();
     });
+    
     function buscarPorCodigoBarras() {
       const codigo = document.getElementById('barcode-input').value.trim();
       if (!codigo) return;
@@ -394,7 +386,7 @@
 
     // Pago
     document.getElementById('btn-pago').addEventListener('click', function() {
-      const total = parseFloat(document.getElementById('total-display').innerText.replace('$',''));
+      const total = parseFloat(document.getElementById('total-display').innerText.replace('$', ''));
       document.getElementById('modal-total').innerText = `$${total.toFixed(2)}`;
       document.getElementById('modal-pago').classList.remove('hidden');
     });
@@ -408,37 +400,60 @@
     });
 
     document.getElementById('modal-completar').addEventListener('click', function() {
-      const total = parseFloat(document.getElementById('modal-total').innerText.replace('$',''));
-      const recibido = parseFloat(document.getElementById('cantidadRecibida').value);
+      const total = parseFloat(document.getElementById('modal-total').innerText.replace('$', ''));
+      const cantidadRecibida = parseFloat(document.getElementById('cantidadRecibida').value);
       const msg = document.getElementById('pago-message');
       msg.classList.add('hidden');
 
-      if (isNaN(recibido) || recibido < total) {
-        msg.innerText = recibido < total
-          ? 'La cantidad ingresada es menor que el total.'
-          : 'Por favor, ingrese una cantidad válida.';
+      if (isNaN(cantidadRecibida) || cantidadRecibida <= 0) {
+        msg.innerText = 'Por favor, ingrese una cantidad válida.';
         msg.classList.remove('hidden');
-        return;
+      } else if (cantidadRecibida < total) {
+        msg.innerText = 'La cantidad ingresada es menor que el total a pagar.';
+        msg.classList.remove('hidden');
+      } else {
+        const cambio = cantidadRecibida - total;
+        document.getElementById('cambio-text').innerText = `Cambio: $${cambio.toFixed(2)}`;
+        document.getElementById('cambio-modal').classList.remove('hidden');
+
+        // Preparar los datos para enviar
+        document.getElementById('form-total').value = total.toFixed(2);
+        document.getElementById('form-fecha').value = new Date().toISOString();
+
+        // Obtener productos del carrito
+        const productos = getProductosDelCarrito();
+        document.getElementById('form-productos').value = JSON.stringify(productos);
+
+        // Enviar la venta a la base de datos
+        document.getElementById('venta-form').submit(); 
+        
+        setTimeout(function() {
+         window.location.href = '{{ route("ventas.index") }}';
+        }, 80000);
       }
-
-      const cambio = recibido - total;
-      document.getElementById('cambio-text').innerText = `$${cambio.toFixed(2)}`;
-      document.getElementById('modal-pago').classList.add('hidden');
-      document.getElementById('cambio-modal').classList.remove('hidden');
-
-      // Prepara datos para el envío
-      document.getElementById('form-total').value = total.toFixed(2);
-      document.getElementById('form-fecha').value = new Date().toISOString();
-      document.getElementById('form-productos').value = JSON.stringify(getProductosDelCarrito());
     });
+
+    function getProductosDelCarrito() {
+      const productos = [];
+      const items = document.querySelectorAll('#carrito-contenido .producto');
+
+      items.forEach(item => {
+        const id = item.dataset.id;
+        const cantidad = parseInt(item.querySelector('.cantidad').value) || 0;
+        const precioUnitario = parseFloat(item.dataset.precio) || 0;
+        const subtotal = cantidad * precioUnitario;
+
+        productos.push({ id, cantidad, precio_unitario: precioUnitario, subtotal });
+      });
+
+      return productos;
+    }
 
     // Al cerrar el modal de cambio, guardamos y redirigimos
     document.getElementById('cambio-close').addEventListener('click', function() {
       document.getElementById('venta-form').submit();
       window.location.href = '{{ route("ventas.index") }}';
     });
-
-    // (Aquí van tus funciones renderProductos, renderCarrito, etc., igual que en posmenu.js)
   </script>
 </body>
 </html>

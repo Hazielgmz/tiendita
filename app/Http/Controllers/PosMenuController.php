@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect; // Importa la clase Redirect
+use Illuminate\Support\Facades\DB; // Importa la clase DB
 
 class POSMenuController extends Controller
 {
@@ -16,48 +17,26 @@ class POSMenuController extends Controller
         return view('POSMenu', compact('productos'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'total' => 'required|numeric',
-            'fecha' => 'required|date',
-            'productos' => 'required|json',
-        ]);
+public function store(Request $request)
+{
+    
+    $request->validate([
+        'total' => 'required|numeric',
+        'fecha' => 'required|date',
+    ]);
 
-        // Crear la venta
-        $venta = Venta::create([
-            'users_id' => Auth::id(),
-            'total' => $request->total,
-            'fecha' => $request->fecha,
-        ]);
-
-        $productos = json_decode($request->productos, true);
-        foreach ($productos as $producto) {
-            $venta->productos()->attach($producto['id'], [
-                'cantidad' => $producto['cantidad'],
-                'precio_unitario' => $producto['precio_unitario'],
-                'subtotal' => $producto['subtotal'],
+    try {
+        DB::transaction(function () use ($request) {
+            Venta::create([
+                'users_id' => Auth::id(),
+                'total' => $request->total,
+                'fecha' => $request->fecha,
             ]);
-        }
-
-        // Redirigir a la vista POSMenu
-        return Redirect::route('ventas.index'); 
+        });
+    } catch (\Exception $e) {
+        return back()->withErrors(['error' => $e->getMessage()]);
     }
 
-    public function getProductosDelCarrito()
-    {
-        $productos = [];
-        $carritoContenido = request()->input('carrito'); 
-
-        foreach ($carritoContenido as $item) {
-            $productos[] = [
-                'id' => $item['id'],
-                'cantidad' => $item['cantidad'],
-                'precio_unitario' => $item['precio_unitario'],
-                'subtotal' => $item['subtotal'],
-            ];
-        }
-
-        return $productos; 
-    }
+    return Redirect::route('ventas.index'); 
+}
 }
