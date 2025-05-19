@@ -16,7 +16,7 @@
                     onclick="window.location.href='{{ route('admin.proveedores.create') }}'" 
                     class="btn btn-primary"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 5v14"></path>
                         <path d="M5 12h14"></path>
                     </svg>
@@ -46,12 +46,7 @@
                                     <td class="px-4 py-2">{{ $prov->email }}</td>
                                     <td class="px-4 py-2">{{ $prov->telefono }}</td>
                                     <td class="px-4 py-2 flex gap-2">
-                                        <a 
-                                            href="{{ route('admin.proveedores.edit', $prov->id) }}" 
-                                            class="btn btn-primary btn-sm"
-                                        >
-                                            Editar
-                                        </a>
+                                        {{-- Editar removido --}}
                                         <form 
                                             action="{{ route('admin.proveedores.destroy', $prov->id) }}" 
                                             method="POST" 

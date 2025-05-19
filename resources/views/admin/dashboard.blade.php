@@ -18,7 +18,7 @@
                                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                 <polyline points="16 7 22 7 22 13"></polyline>
                             </svg>
-                            <span>12% más que ayer</span>
+                            <span></span>
                         </div>
                     </div>
                     <div class="stat-card-icon">
@@ -40,7 +40,7 @@
                                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                 <polyline points="16 7 22 7 22 13"></polyline>
                             </svg>
-                            <span>8% más que ayer</span>
+                            <span></span>
                         </div>
                     </div>
                     <div class="stat-card-icon">
@@ -75,31 +75,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Clientes -->
-            <div class="stat-card">
-                <div class="stat-card-content">
-                    <div class="stat-card-info">
-                        <h3 class="stat-card-title">Clientes</h3>
-                        <p class="stat-card-value">{{ number_format($clientes ?? 0) }}</p>
-                        <div class="stat-card-trend stat-positive">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                <polyline points="16 7 22 7 22 13"></polyline>
-                            </svg>
-                            <span>3 nuevos hoy</span>
-                        </div>
-                    </div>
-                    <div class="stat-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Contenido principal del dashboard -->
@@ -110,160 +85,89 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-header-content">
-                            <h3 class="card-title">Ventas Recientes</h3>
-                            <p class="card-description">Resumen de ventas de los últimos días</p>
+                            <h3 class="card-title">Ganancias del Mes</h3>
+                            <p class="card-description">{{ $nombreMes }} {{ date('Y') }}</p>
                         </div>
                         <div class="card-actions">
-                            <select class="select-period">
-                                <option>Hoy</option>
-                                <option>Esta semana</option>
-                                <option>Este mes</option>
-                            </select>
+                            <span class="total-month">Total: ${{ number_format($totalMes, 2) }}</span>
                         </div>
                     </div>
                     <div class="card-content">
                         <div class="chart-container">
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: var(--primary)"></span>
+                                    <span>Ganancias</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: rgba(var(--primary-rgb), 0.3)"></span>
+                                    <span>Promedio diario</span>
+                                </div>
+                            </div>
+                            
+                            @php
+                                // Calcular el valor máximo para la escala del gráfico
+                                $maxValue = $data->max() > 0 ? $data->max() : 1000;
+                                // Redondear hacia arriba al siguiente múltiplo de 250 para tener valores "limpios"
+                                $maxValue = ceil($maxValue / 250) * 250;
+                                
+                                // Calcular los valores para el eje Y
+                                $yAxisValues = [
+                                    $maxValue,
+                                    $maxValue * 0.75,
+                                    $maxValue * 0.5,
+                                    $maxValue * 0.25,
+                                    0
+                                ];
+                                
+                                // Calcular el promedio diario
+                                $promedioDiario = $data->filter()->avg() ?: 0;
+                                $promedioPercentage = ($promedioDiario / $maxValue) * 100;
+                            @endphp
+                            
+                            <div class="chart-grid">
+                                <div class="chart-grid-line"></div>
+                                <div class="chart-grid-line"></div>
+                                <div class="chart-grid-line"></div>
+                                <div class="chart-grid-line"></div>
+                            </div>
+                            
+                            <div class="chart-values">
+                                @foreach($yAxisValues as $value)
+                                    <span>${{ number_format($value, 0) }}</span>
+                                @endforeach
+                            </div>
+                            
                             <div class="chart-mock">
-                                <div class="chart-bar" style="height: 30%"></div>
-                                <div class="chart-bar" style="height: 50%"></div>
-                                <div class="chart-bar" style="height: 70%"></div>
-                                <div class="chart-bar" style="height: 40%"></div>
-                                <div class="chart-bar" style="height: 60%"></div>
-                                <div class="chart-bar" style="height: 80%"></div>
-                                <div class="chart-bar" style="height: 45%"></div>
+                                @foreach($data as $index => $value)
+                                    @php
+                                        $heightPercentage = ($value / $maxValue) * 100;
+                                        $label = isset($labels[$index]) ? $labels[$index] : '';
+                                        $isToday = $label == date('d');
+                                    @endphp
+                                    <div class="chart-column">
+                                        <div class="chart-bar-wrapper">
+                                            <div class="chart-bar {{ $isToday ? 'chart-bar-today' : '' }}" style="height: {{ $heightPercentage }}%">
+                                                <span class="chart-bar-value">${{ number_format($value, 0) }}</span>
+                                            </div>
+                                            <div class="chart-target" style="bottom: {{ $promedioPercentage }}%"></div>
+                                        </div>
+                                        <span class="chart-label {{ $isToday ? 'chart-label-today' : '' }}">{{ $label }}</span>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="chart-labels">
-                                <span>Lun</span>
-                                <span>Mar</span>
-                                <span>Mié</span>
-                                <span>Jue</span>
-                                <span>Vie</span>
-                                <span>Sáb</span>
-                                <span>Dom</span>
-                            </div>
+                            
+                            <div class="chart-trend-line"></div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link">Ver reporte completo →</a>
-                    </div>
-                </div>
-
-                <!-- Últimas Transacciones -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-content">
-                            <h3 class="card-title">Últimas Transacciones</h3>
-                            <p class="card-description">Transacciones más recientes del sistema</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="#" class="btn-refresh">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                    <path d="M3 3v5h5"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <table class="dashboard-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Fecha</th>
-                                    <th>Monto</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#1234</td>
-                                    <td>Cliente A</td>
-                                    <td>Hoy, 10:30 AM</td>
-                                    <td>$125.00</td>
-                                    <td><span class="status-badge status-completed">Completada</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#1233</td>
-                                    <td>Cliente B</td>
-                                    <td>Hoy, 9:15 AM</td>
-                                    <td>$85.50</td>
-                                    <td><span class="status-badge status-completed">Completada</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#1232</td>
-                                    <td>Cliente C</td>
-                                    <td>Ayer, 3:45 PM</td>
-                                    <td>$210.75</td>
-                                    <td><span class="status-badge status-pending">Pendiente</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="card-link">Ver todas las transacciones →</a>
+                        <a href="{{ route('admin.dashboard') }}" class="card-link">Ver reporte completo →</a>
                     </div>
                 </div>
             </div>
 
             <!-- Columna derecha -->
             <div class="dashboard-column side-column">
-                <!-- Productos Populares -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-content">
-                            <h3 class="card-title">Productos Populares</h3>
-                            <p class="card-description">Los productos más vendidos</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="{{ route('admin.products') }}" class="card-link">Ver todos</a>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="popular-products">
-                            <div class="product-item">
-                                <div class="product-info">
-                                    <h4 class="product-name">Producto A</h4>
-                                    <p class="product-category">Categoría 1</p>
-                                </div>
-                                <div class="product-stats">
-                                    <div class="product-sales">145 ventas</div>
-                                    <div class="stock-indicator">
-                                        <div class="stock-bar stock-high" style="width: 80%"></div>
-                                        <span>80%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item">
-                                <div class="product-info">
-                                    <h4 class="product-name">Producto B</h4>
-                                    <p class="product-category">Categoría 2</p>
-                                </div>
-                                <div class="product-stats">
-                                    <div class="product-sales">98 ventas</div>
-                                    <div class="stock-indicator">
-                                        <div class="stock-bar stock-medium" style="width: 45%"></div>
-                                        <span>45%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item">
-                                <div class="product-info">
-                                    <h4 class="product-name">Producto C</h4>
-                                    <p class="product-category">Categoría 1</p>
-                                </div>
-                                <div class="product-stats">
-                                    <div class="product-sales">67 ventas</div>
-                                    <div class="stock-indicator">
-                                        <div class="stock-bar stock-low" style="width: 15%"></div>
-                                        <span>15%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Acciones Rápidas -->
                 <div class="card">
                     <div class="card-header">
@@ -281,16 +185,7 @@
                                 </svg>
                                 <span>Nuevo Producto</span>
                             </a>
-                            <a href="#" class="quick-action-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg>
-                                <span>Nuevo Cliente</span>
-                            </a>
-                            <a href="#" class="quick-action-btn">
+                            <a href="{{ route('admin.reports') }}" class="quick-action-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
                                     <line x1="3" x2="21" y1="9" y2="9"></line>
@@ -336,7 +231,7 @@
 
         @media (min-width: 1024px) {
             .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -478,6 +373,15 @@
             gap: 0.75rem;
         }
 
+        .total-month {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--success);
+            background-color: rgba(16, 185, 129, 0.1);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+
         .card-content {
             padding: 1.5rem;
             flex: 1;
@@ -491,10 +395,66 @@
 
         /* Chart Styles */
         .chart-container {
-            height: 250px;
+            height: 300px;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 3rem;
+            right: 0;
+            bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 0;
+        }
+
+        .chart-grid-line {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-values {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-right: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
         }
 
         .chart-mock {
@@ -502,145 +462,89 @@
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            gap: 1rem;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
             padding-bottom: 0.5rem;
+            height: 100%;
+            overflow-x: auto;
+        }
+
+        .chart-column {
+            flex: 0 0 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .chart-bar-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
         }
 
         .chart-bar {
-            flex: 1;
-            background-color: var(--primary);
+            width: 70%;
+            background: linear-gradient(to top, var(--primary), #4f46e5);
             border-radius: 4px 4px 0 0;
             transition: height 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .chart-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
+        .chart-bar-today {
+            background: linear-gradient(to top, #10b981, #059669);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
         }
 
-        /* Table Styles */
-        .dashboard-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .dashboard-table th {
-            text-align: left;
+        .chart-bar-value {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
             font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .chart-target {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(var(--primary-rgb), 0.3);
+            z-index: 2;
+        }
+
+        .chart-label {
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
+            margin-top: 0.5rem;
+            text-align: center;
         }
 
-        .dashboard-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.875rem;
-        }
-
-        .dashboard-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Status Badges */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .status-completed {
-            background-color: rgba(16, 185, 129, 0.1);
+        .chart-label-today {
+            font-weight: 700;
             color: var(--success);
         }
 
-        .status-pending {
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-
-        /* Product Items */
-        .popular-products {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .product-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            background-color: rgba(0, 0, 0, 0.02);
-        }
-
-        .product-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-name {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .product-category {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        .product-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .product-sales {
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        /* Stock Indicator */
-        .stock-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .stock-bar {
-            height: 6px;
-            border-radius: 3px;
-            flex: 1;
-        }
-
-        .stock-high {
-            background-color: var(--success);
-        }
-
-        .stock-medium {
-            background-color: var(--warning);
-        }
-
-        .stock-low {
-            background-color: var(--danger);
-        }
-
-        .stock-indicator span {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            min-width: 32px;
-            text-align: right;
+        .chart-trend-line {
+            position: absolute;
+            top: 0;
+            left: 3rem;
+            right: 0;
+            bottom: 2rem;
+            pointer-events: none;
+            z-index: 2;
+            background-image: linear-gradient(to right, transparent, transparent),
+                              linear-gradient(to right, rgba(79, 70, 229, 0.2) 0%, rgba(79, 70, 229, 0.2) 100%);
+            background-size: 100% 100%, 100% 1px;
+            background-position: 0 0, 0 65%;
+            background-repeat: no-repeat;
         }
 
         /* Quick Actions */
@@ -680,16 +584,6 @@
             text-align: center;
         }
 
-        /* Select Period */
-        .select-period {
-            padding: 0.375rem 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-        }
-
         /* Links */
         .card-link {
             color: var(--primary);
@@ -700,24 +594,6 @@
 
         .card-link:hover {
             text-decoration: underline;
-        }
-
-        /* Refresh Button */
-        .btn-refresh {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 0.375rem;
-            background-color: rgba(0, 0, 0, 0.02);
-            color: var(--text-secondary);
-            transition: all 0.2s;
-        }
-
-        .btn-refresh:hover {
-            background-color: var(--primary-light);
-            color: var(--primary);
         }
     </style>
 @endsection

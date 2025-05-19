@@ -54,6 +54,17 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'Usuario eliminado correctamente.');
     }
+    public function updatePassword(Request $request, User $user)
+{
+    $request->validate([
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    return back()->with('success', 'Contraseña actualizada.');
+}
 
 
 }

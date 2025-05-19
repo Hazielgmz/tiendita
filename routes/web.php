@@ -12,11 +12,16 @@ use App\Http\Controllers\MermaController;
 use App\Http\Controllers\DevolucionesController;
 use App\Http\Controllers\ReportController;
 
+Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])
+     ->name('users.update-password');
+
 // Rutas para los controladores 
 Route::resource('productos', ProductoController::class);
 Route::resource('users', UserController::class);
 Route::resource('mermas', MermaController::class);
 
+
+Route::get('/admin/chart-data', [AdminPanelController::class, 'chartData'])->name('admin.chart-data');
 
 // Ruta para mostrar el formulario de login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -33,10 +38,11 @@ Route::get('/POSMenu', function () {
 })->middleware('auth');
 
 Route::get('/POSMenu', [POSMenuController::class, 'index']);
-Route::post('/POSMenu/search', [POSMenuController::class, 'searchProductByBarcode']);
-Route::post('/POSMenu/continue', [POSMenuController::class, 'continueSale']);
-Route::get('/ventas', [POSMenuController::class, 'index'])->name('ventas.index');
-Route::post('/ventas', [POSMenuController::class, 'store'])->name('ventas.store');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/ventas',   [POSMenuController::class, 'index'])->name('ventas.index');
+    Route::post('/ventas',  [POSMenuController::class, 'store'])->name('ventas.store');
+});
 
 // Rutas para el panel de administración
 Route::get('/admin-dashboard', [AdminPanelController::class, 'dashboard'])->name('admin.dashboard');

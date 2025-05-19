@@ -5,48 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class DetalleVenta extends Model
 {
-    use HasFactory;
+    protected $table = 'detalle_venta';
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'detalle_ventas';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    // Columnas que se pueden asignar masivamente
     protected $fillable = [
         'venta_id',
-        'producto_ids', // Campo para almacenar múltiples IDs de producto
+        'producto_id',
+        'cantidad',
+        'precio_unitario',
+        'subtotal',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'producto_ids' => 'string', // Tratado como cadena
-    ];
-
-    /**
-     * Get the venta that owns the detalle venta.
+     * Relación con la venta principal
      */
     public function venta()
     {
         return $this->belongsTo(Venta::class, 'venta_id');
+    }
+
+    /**
+     * Relación con el producto vendido
+     */
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
 }

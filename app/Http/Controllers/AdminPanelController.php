@@ -3,27 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\Producto; // 
-use App\Models\Merma; // Asegúrate de incluir el modelo Merma
-use App\Models\Proveedor; // Asegúrate de incluir el modelo Proveedor
-use App\Models\Venta; // Asegúrate de incluir el modelo Venta
-use App\Models\Reporte; // Asegúrate de incluir el modelo Reporte
+use App\Models\Producto;
+use App\Models\Merma;
+use App\Models\Proveedor;
+use App\Models\Venta;
+use App\Models\Reporte;
 use Carbon\Carbon;   
 
 class AdminPanelController extends Controller
 {
-    public function dashboard()
+   public function dashboard()
     {
-        // Suma total de ventas
-        $totalVentas   = Venta::whereDate('fecha', Carbon::today())
-                          ->sum('total');
-        // Cantidad de transacciones (ventas)
-        $transacciones = Venta::count();
-        // Cantidad de productos
+        // 1) Estadísticas generales
+        $totalVentas   = Venta::whereDate('fecha', Carbon::today())->sum('total');
+        $transacciones = Venta::whereDate('fecha', Carbon::today())->count();
         $productos     = Producto::count();
 
-        return view('admin.dashboard', compact('totalVentas', 'transacciones', 'productos'));
+        // 2) Datos para la gráfica: mes actual
+        $desde = Carbon::today()->startOfMonth();
+        $hasta = Carbon::today()->endOfMonth();
+        
+        // Obtener el nombre del mes actual en español
+        $nombreMes = Carbon::now()->locale('es')->monthName;
+        $nombreMes = ucfirst($nombreMes); // Primera letra en mayúscula
+
+        // Obtener las ventas del mes agrupadas por día
+        $ventasPorDia = Venta::select(
+                DB::raw('DATE(fecha) as fecha'),
+                DB::raw('SUM(total) as total')
+            )
+            ->whereBetween('fecha', [$desde, $hasta])
+            ->groupBy('fecha')
+            ->orderBy('fecha')
+            ->get();
+
+        // Total de ventas del mes
+        $totalMes = $ventasPorDia->sum('total');
+
+        // 3) Preparar datos para todos los días del mes
+        $daysInMonth = Carbon::today()->daysInMonth;
+        
+        // Crear arrays con todos los días del mes
+        $labels = collect();
+        $data = collect();
+        
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $labels->push(sprintf("%02d", $day)); // Formato "01", "02", etc.
+            $data->push(0); // Inicializar con ceros
+        }
+        
+        // Rellenar con datos reales donde existan
+        foreach ($ventasPorDia as $venta) {
+            $day = (int)Carbon::parse($venta->fecha)->format('d');
+            $data[$day - 1] = $venta->total;
+        }
+
+        // 4) Pasar todo a la vista
+        return view('admin.dashboard', compact(
+            'totalVentas',
+            'transacciones',
+            'productos',
+            'labels',
+            'data',
+            'nombreMes',
+            'totalMes'
+        ));
     }
 
     public function index(Request $request)
@@ -38,7 +84,7 @@ class AdminPanelController extends Controller
         return view('admin.users', compact('users'));
     }
 
-    public function productos(Request $request)  // ← recibe Request
+    public function productos(Request $request)
     {
          $q = $request->input('q');
 
@@ -53,27 +99,27 @@ class AdminPanelController extends Controller
 
     public function proveedores()
     {
-        return view('admin.proveedores'); // Asegúrate de que este archivo exista
+        return view('admin.proveedores');
     }
 
     public function ventas()
     {
-        return view('admin.ventas'); // Asegúrate de que este archivo exista
+        return view('admin.ventas');
     }
 
     public function mermas()
     {
         $mermas = Merma::all();
-        return view('admin.mermas', compact('mermas')); // Asegúrate de que este archivo exista
+        return view('admin.mermas', compact('mermas'));
     }
 
     public function estadisticas()
     {
-        return view('admin.statistics'); // Asegúrate de que este archivo exista
+        return view('admin.statistics');
     }
     
     public function configuracion()
     {
-        return view('admin.configuracion'); // Asegúrate de que este archivo exista
+        return view('admin.configuracion');
     }
 }

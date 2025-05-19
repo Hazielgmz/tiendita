@@ -29,10 +29,5 @@ class Venta extends Model
         return $this->belongsTo(User::class, 'users_id');
     }
 
-    public function productos()
-    {
-        return $this->belongsToMany(Producto::class, 'detalle_venta', 'venta_id', 'producto_id')
-            ->withPivot('cantidad', 'precio_unitario', 'subtotal')
-            ->withTimestamps();
-    }
+   
 }

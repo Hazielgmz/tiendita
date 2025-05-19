@@ -44,7 +44,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Rol</th>
+                                <th>Contraseña</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -69,18 +69,26 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="role-badge {{ strtolower($user->role ?? 'user') }}">
-                                            {{ $user->role ?? 'Usuario' }}
-                                        </span>
+                                        <div class="password-container">
+                                            <form action="{{ route('users.update-password', $user->id) }}" method="POST" class="password-form">
+                                                @csrf
+                                                @method('PATCH')
+                                                <div class="password-input-group">
+                                                    <input type="password" name="password" class="password-input" placeholder="Nueva contraseña">
+                                                    <button type="submit" class="btn btn-sm btn-primary password-btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                                            <polyline points="7 3 7 8 15 8"></polyline>
+                                                        </svg>
+                                                        Guardar
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="actions-cell">
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
-                                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                                                </svg>
-                                                Editar
-                                            </a>
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('¿Seguro de eliminar este usuario?')" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
@@ -203,30 +211,40 @@
             font-size: 0.875rem;
         }
         
-        /* Badges de rol */
-        .role-badge {
-            display: inline-flex;
+        /* Password input */
+        .password-container {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
+        }
+        
+        .password-form {
+            width: 100%;
+            margin: 0;
+        }
+        
+        .password-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .password-input {
+            flex: 1;
+            padding: 0.375rem 0.625rem;
+            border: 1px solid var(--border-color);
             border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: var(--input-bg, white);
+            color: var(--text-primary);
         }
         
-        .role-badge.admin {
-            color: var(--primary);
-            background-color: var(--primary-light);
+        .password-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-light);
         }
         
-        .role-badge.user {
-            color: var(--info, #3b82f6);
-            background-color: var(--info-light, rgba(59, 130, 246, 0.1));
-        }
-        
-        .role-badge.editor {
-            color: var(--success);
-            background-color: var(--success-light);
+        .password-btn {
+            white-space: nowrap;
         }
         
         /* Botones de acción */
@@ -349,6 +367,10 @@
             .table th, 
             .table td {
                 padding: 0.5rem;
+            }
+            
+            .password-input-group {
+                flex-direction: column;
             }
         }
     </style>
