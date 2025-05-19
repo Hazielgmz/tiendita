@@ -90,7 +90,7 @@ Route::get('/admin/users/{id}/edit', function ($id) {
 
 // Rutas para crear producto
 Route::get('/admin/create-product', [ProductoController::class, 'create'])->name('admin.create-product'); // Ruta corregida
-Route::post('/admin/store-product', [ProductoController::class, 'store'])->name('productos.store');
+//Route::post('/admin/store-product', [ProductoController::class, 'store'])->name('productos.store');
 
 // Ruta para mostrar la interfaz de edición de un producto
 Route::get('/admin/products/{id}/edit', function ($id) {
